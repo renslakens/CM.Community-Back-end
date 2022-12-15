@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace CM.Community_Back_end {
     public class WeatherForecast {
+        [Key]
         public DateTime Date { get; set; }
 
         public int TemperatureC { get; set; }
