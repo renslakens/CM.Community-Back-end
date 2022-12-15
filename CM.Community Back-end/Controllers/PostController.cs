@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CM.Community_Back_end.Models;
+using CM.Community_Back_end.Services;
+using CM.Community_Back_end.Services.PostService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CM.Community_Back_end.Controllers
@@ -11,39 +13,41 @@ namespace CM.Community_Back_end.Controllers
     [Route("api/[controller]")]
     public class PostController : ControllerBase
     {
-        private static List<Post> posts = new List<Post>{
-            new Post{
-                postID = 1,
-                postTitle = "I'm the first post",
-                postText = "This post is the first post of the page! Exciting right?",
-                publicationDate = new DateTime(),
-                Subject = "Subject one"
-            },
-            new Post{
-                postID = 2,
-                postTitle = "I'm the second post",
-                postText = "To top it off, we've got not one, but two posts!!",
-                publicationDate = new DateTime(),
-                Subject = "Subject two"}
-        };
+        private readonly IPostService _postService;
+
+        public PostController(IPostService postService)
+        {
+            _postService = postService;
+        }
 
         [HttpGet("GetAll")]
-        public ActionResult<List<Post>> get()
+        public async Task<ActionResult<List<Post>>> get()
         {
-            return Ok(posts);
+            return Ok(await _postService.GetAllPosts());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Post> GetSingle(int id)
+        public async Task<ActionResult<Post>> GetSingle(int id)
         {
-            return Ok(posts.FirstOrDefault(p => p.postID == id));
+            return Ok(await _postService.GetPostById(id));
         }
 
-        [HttpPost]
-        public ActionResult<List<Post>> AddPost(Post newPost)
+        [HttpPost("New")]
+        public async Task<ActionResult<List<Post>>> AddPost(Post newPost)
         {
-            posts.Add(newPost);
-            return Ok(posts);
+            return Ok(await _postService.AddPost(newPost));
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<Post>> UpdatePost(Post updatedPost)
+        {
+            return Ok(await _postService.UpdatePost(updatedPost));
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<Post>> DeletePost(Post deletedPost)
+        {
+            return Ok(await _postService.DeletePost(deletedPost));
         }
 
     }
