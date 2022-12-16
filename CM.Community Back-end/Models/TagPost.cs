@@ -10,11 +10,15 @@ namespace CM.Community_Back_end.Models
 {
     public class TagPost
     {
+        [Key, Column(Order = 1)]
+        public int postID { get; set; }
+        [Key, Column(Order = 2)]
+        public int tagID { get; set; }
 
-        [Key, ForeignKey("postID")]
+        [ForeignKey("postID")]
         public Post Post { get; set; }
 
-        [Key, ForeignKey("tagID")]
+        [ForeignKey("tagID")]
         public Tag Tag { get; set; }
     }
 }

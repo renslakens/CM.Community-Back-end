@@ -19,5 +19,12 @@ namespace CmCommunityBackend.Data
             : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CommentPost>().HasKey(vf => new { vf.commentID, vf.postID });
+            modelBuilder.Entity<TagPost>().HasKey(vf => new { vf.tagID, vf.postID });
+            modelBuilder.Entity<UserGroup>().HasKey(vf => new { vf.userID, vf.groupID });
+            modelBuilder.Entity<UserPost>().HasKey(vf => new { vf.userID, vf.postID });
+        }
     }
 }

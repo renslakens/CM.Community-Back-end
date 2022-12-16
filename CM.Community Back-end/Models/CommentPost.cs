@@ -9,9 +9,9 @@ namespace CM.Community_Back_end.Models
 {
     public class CommentPost
     {
-        [Key, Column(Order = 0)]
-        public int postID { get; set; }
         [Key, Column(Order = 1)]
+        public int postID { get; set; }
+        [Key, Column(Order = 2)]
         public int commentID { get; set; }
 
         [ForeignKey("postID")]

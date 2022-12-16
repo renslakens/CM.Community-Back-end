@@ -9,11 +9,15 @@ namespace CM.Community_Back_end.Models
 {
     public class UserPost
     {
+        [Key, Column(Order = 1)]
+        public int userID { get; set; }
+        [Key, Column(Order = 2)]
+        public int postID { get; set; }
 
-        [Key, ForeignKey("userEmail")]
+        [ForeignKey("userID")]
         public User User { get; set; }
 
-        [Key, ForeignKey("postID")]
+        [ForeignKey("postID")]
         public Post Post { get; set; }
     }
 }

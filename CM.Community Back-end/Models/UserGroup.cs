@@ -9,11 +9,15 @@ namespace CM.Community_Back_end.Models
 {
     public class UserGroup
     {
+        [Key, Column(Order = 1)]
+        public int groupID { get; set; }
+        [Key, Column(Order = 2)]
+        public int userID { get; set; }
 
-        [Key, ForeignKey("groupID")]
+        [ForeignKey("groupID")]
         public Group Group { get; set; }
 
-        [Key, ForeignKey("userEmail")]
+        [ForeignKey("userID")]
         public User User { get; set; }
     }
 }
