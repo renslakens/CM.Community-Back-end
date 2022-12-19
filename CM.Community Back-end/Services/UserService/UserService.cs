@@ -18,6 +18,7 @@ namespace CM.Community_Back_end.Services.UserService
         }
         public async Task<List<User>> addUser(User newUser)
         {
+            newUser.userPassword = BCrypt.Net.BCrypt.HashPassword(newUser.userPassword);
             users.Add(newUser);
             return users;
         }
@@ -43,6 +44,21 @@ namespace CM.Community_Back_end.Services.UserService
             int index = getIndexByEmail(deletedUser);
             users.RemoveAt(index);
             return users;
+        }
+
+        public async Task<String> loginUser(User user) {
+            //Gehashte wachtwoord checken met het ingevoerde wachtwoord
+            var oUser = users.FirstOrDefault(c => c.userEmail == user.userEmail);
+            bool isValidPassword = BCrypt.Net.BCrypt.Verify(user.userPassword, oUser.userPassword);
+
+            //TODO: Token genereren en terugsturen
+
+            if (isValidPassword) {
+                return "Valid";
+            }
+            else {
+                return "Invalid";
+            }
         }
     }
 }

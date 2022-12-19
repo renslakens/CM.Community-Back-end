@@ -47,5 +47,11 @@ namespace CM.Community_Back_end.Controllers
         public async Task<ActionResult<List<User>>> deleteUser(User deletedUser){
             return Ok(await _userService.deleteUser(deletedUser));
         }
+
+        [HttpPost]
+        [Route("auth")]
+        public async Task<ActionResult<String>> loginUser(User user) {
+            return Ok(await _userService.loginUser(user));
+        }
     }
 }
