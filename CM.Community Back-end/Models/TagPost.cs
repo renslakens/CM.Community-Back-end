@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,10 +10,15 @@ namespace CM.Community_Back_end.Models
 {
     public class TagPost
     {
-        [ForeignKey("postID")]
+        [Key, Column(Order = 1)]
         public int postID { get; set; }
+        [Key, Column(Order = 2)]
+        public int tagID { get; set; }
+
+        [ForeignKey("postID")]
+        public Post Post { get; set; }
 
         [ForeignKey("tagID")]
-        public int tagID { get; set; }
+        public Tag Tag { get; set; }
     }
 }
