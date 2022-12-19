@@ -6,9 +6,11 @@ namespace CM.Community_Back_end.Models
 {
     public class ProfilePicture
     {
-        [Key, ForeignKey("userID")]
+        [Key, ForeignKey("User")]
+        public int userID { get; set; }
+
         public User User { get; set; }
 
-        public Blob profilePicture { get; set; }
+        public byte profilePicture { get; set; }
     }
 }

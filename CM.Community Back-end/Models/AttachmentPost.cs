@@ -6,9 +6,11 @@ namespace CM.Community_Back_end.Models
 {
     public class AttachmentPost
     {
-        [Key, ForeignKey("postID")]
+        [Key, ForeignKey("Post")]
+        public int postID { get; set; }
+
         public Post Post { get; set; }
 
-        public Blob attachment { get; set; }
+        public byte attachment { get; set; }
     }
 }

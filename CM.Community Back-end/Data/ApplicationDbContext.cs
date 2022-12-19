@@ -27,6 +27,8 @@ namespace CmCommunityBackend.Data
             modelBuilder.Entity<TagPost>().HasKey(vf => new { vf.tagID, vf.postID });
             modelBuilder.Entity<UserGroup>().HasKey(vf => new { vf.userID, vf.groupID });
             modelBuilder.Entity<UserPost>().HasKey(vf => new { vf.userID, vf.postID });
+            modelBuilder.Entity<AttachmentPost>().Property(p => p.attachment).HasColumnType("MediumBlob");
+            modelBuilder.Entity<ProfilePicture>().Property(p => p.profilePicture).HasColumnType("MediumBlob");
         }
     }
 }
