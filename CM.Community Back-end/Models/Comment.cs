@@ -11,6 +11,7 @@ namespace CM.Community_Back_end.Models
         [Key]
         public int commentID { get; set; }
 
+        [StringLength(100)]
         public string commentText { get; set; }
     }
 }
