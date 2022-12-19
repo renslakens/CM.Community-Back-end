@@ -15,6 +15,12 @@ namespace CM.Community_Back_end.Models
 
         public string userName { get; set; }
 
+        public string userFirstName { get; set; }
+
+        public string userLastName { get; set; }
+
+        public DateTime userBirthDate { get; set; }
+
         public string userPassword { get; set; }
     }
 }
