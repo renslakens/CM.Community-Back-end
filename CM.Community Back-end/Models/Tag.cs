@@ -11,6 +11,7 @@ namespace CM.Community_Back_end.Models
         [Key]
         public int tagID { get; set; }
 
+        [StringLength(25)]
         public string tagName { get; set; }
     }
 }

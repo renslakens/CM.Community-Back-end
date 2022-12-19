@@ -12,8 +12,11 @@ namespace CM.Community_Back_end.Models
         [Key]
         public int postID { get; set; }
 
+        //[StringLength(50, MinimumLength = 3)]
+        [StringLength(50)]
         public string postTitle { get; set; }
 
+        [StringLength(360)]
         public string postText { get; set; }
 
         public DateTime publicationDate { get; set; }

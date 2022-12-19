@@ -11,6 +11,7 @@ namespace CM.Community_Back_end.Models
         [Key]
         public int groupID { get; set; }
 
+        [StringLength(50)]
         public string groupName { get; set; }
     }
 }
