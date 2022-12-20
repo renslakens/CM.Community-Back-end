@@ -4,6 +4,7 @@ using CmCommunityBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CM.CommunityBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221219154855_editMaxLength")]
+    partial class editMaxLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,10 +30,8 @@ namespace CM.CommunityBackend.Migrations
                     b.Property<int>("postID")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("attachment")
-                        .IsRequired()
-                        .HasMaxLength(8000)
-                        .HasColumnType("varbinary");
+                    b.Property<byte>("attachment")
+                        .HasColumnType("MediumBlob");
 
                     b.HasKey("postID");
 
@@ -130,14 +131,12 @@ namespace CM.CommunityBackend.Migrations
                     b.Property<int>("userID")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("profilePicture")
-                        .IsRequired()
-                        .HasMaxLength(8000)
-                        .HasColumnType("varbinary");
+                    b.Property<byte>("profilePicture")
+                        .HasColumnType("MediumBlob");
 
                     b.HasKey("userID");
 
-                    b.ToTable("ProfilePicture");
+                    b.ToTable("Picture");
                 });
 
             modelBuilder.Entity("CM.Community_Back_end.Models.Tag", b =>
@@ -200,6 +199,11 @@ namespace CM.CommunityBackend.Migrations
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("userName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("userPassword")
                         .IsRequired()
