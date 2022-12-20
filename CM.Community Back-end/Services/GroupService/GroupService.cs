@@ -11,6 +11,12 @@ namespace CM.Community_Back_end.Services.GroupService
             new Group{groupName = "Backend"},
             new Group{groupName = "Frontend"}
         };
+
+        private static List<UserGroup> usersInGroup = new List<UserGroup>
+        {
+            new UserGroup{userID = 1, groupID = 1}
+        };
+
         private int getIndexById(Group group)
         {
             return groups.FindIndex((g) => g.groupID == group.groupID);
@@ -42,6 +48,13 @@ namespace CM.Community_Back_end.Services.GroupService
             int index = getIndexById(deletedGroup);
             groups.RemoveAt(index);
             return groups;
+        }
+
+        //joining group
+        public async Task<List<UserGroup>> joinGroup(UserGroup newUserInGroup)
+        {
+            usersInGroup.Add(newUserInGroup);
+            return usersInGroup;
         }
     }
 }

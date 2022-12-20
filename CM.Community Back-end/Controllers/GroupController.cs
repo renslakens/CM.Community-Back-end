@@ -32,5 +32,12 @@ namespace CM.Community_Back_end.Controllers
             return Ok(await _groupService.deleteGroup(deletedGroup));
         }
 
+        //joining group
+        [HttpPost]
+        public async Task<ActionResult<List<UserGroup>>> joinGroup(UserGroup newUserInGroup)
+        {
+            return Ok(await _groupService.joinGroup(newUserInGroup));
+        }
+
     }
 }
