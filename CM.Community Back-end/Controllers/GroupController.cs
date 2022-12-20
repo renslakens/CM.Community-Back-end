@@ -34,6 +34,7 @@ namespace CM.Community_Back_end.Controllers
 
         //joining group
         [HttpPost]
+        [Route("join")]
         public async Task<ActionResult<List<UserGroup>>> joinGroup(UserGroup newUserInGroup)
         {
             return Ok(await _groupService.joinGroup(newUserInGroup));
