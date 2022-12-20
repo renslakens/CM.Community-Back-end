@@ -201,11 +201,6 @@ namespace CM.CommunityBackend.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<string>("userName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("userPassword")
                         .IsRequired()
                         .HasMaxLength(50)

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CM.CommunityBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class addedmaxlength : Migration
+    public partial class deletedusername : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -45,7 +45,6 @@ namespace CM.CommunityBackend.Migrations
             migrationBuilder.DropTable(
                 name: "Groups");
 
-            
             //creating tables
             migrationBuilder.CreateTable(
                 name: "Comments",
@@ -93,7 +92,6 @@ namespace CM.CommunityBackend.Migrations
                     userID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     userEmail = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    userName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     userFirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     userLastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     userBirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CM.CommunityBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221220084446_addedmaxlength")]
-    partial class addedmaxlength
+    [Migration("20221220084843_deletedusername")]
+    partial class deletedusername
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -203,11 +203,6 @@ namespace CM.CommunityBackend.Migrations
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("userName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("userPassword")
                         .IsRequired()
