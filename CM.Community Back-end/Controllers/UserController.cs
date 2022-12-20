@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using CM.Community_Back_end.Models;
 using CM.Community_Back_end.Services.UserService;
-using CmCommunityBackend.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CM.Community_Back_end.Controllers
@@ -14,7 +13,7 @@ namespace CM.Community_Back_end.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly ApplicationDbContext _context;
+        
         public UserController(IUserService userService)
         {
             _userService = userService;
@@ -28,15 +27,14 @@ namespace CM.Community_Back_end.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<User>> getSingle(string email)
+        public async Task<ActionResult<User>> getSingle(int Id)
         {
-            return Ok(await _userService.getCharacterByEmail(email));
+            return Ok(await _userService.getUserById(Id));
         }
 
         [HttpPost]
         public async Task<ActionResult<List<User>>> addUser(User newUser)
         {
-            await 
             return Ok(await _userService.addUser(newUser));
         }
 
