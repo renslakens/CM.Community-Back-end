@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CM.CommunityBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221216085908_addedmodels")]
-    partial class addedmodels
+    [Migration("20221220123314_onlinemigr")]
+    partial class onlinemigr
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,21 @@ namespace CM.CommunityBackend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CM.Community_Back_end.Models.AttachmentPost", b =>
+                {
+                    b.Property<int>("postID")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("attachment")
+                        .IsRequired()
+                        .HasMaxLength(8000)
+                        .HasColumnType("varbinary");
+
+                    b.HasKey("postID");
+
+                    b.ToTable("AttachmentPosts");
+                });
+
             modelBuilder.Entity("CM.Community_Back_end.Models.Comment", b =>
                 {
                     b.Property<int>("commentID")
@@ -35,7 +50,8 @@ namespace CM.CommunityBackend.Migrations
 
                     b.Property<string>("commentText")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("commentID");
 
@@ -69,7 +85,8 @@ namespace CM.CommunityBackend.Migrations
 
                     b.Property<string>("groupName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("groupID");
 
@@ -88,20 +105,42 @@ namespace CM.CommunityBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("groupID")
+                        .HasColumnType("int");
+
                     b.Property<string>("postText")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(360)
+                        .HasColumnType("nvarchar(360)");
 
                     b.Property<string>("postTitle")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("publicationDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("postID");
 
+                    b.HasIndex("groupID");
+
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("CM.Community_Back_end.Models.ProfilePicture", b =>
+                {
+                    b.Property<int>("userID")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("profilePicture")
+                        .IsRequired()
+                        .HasMaxLength(8000)
+                        .HasColumnType("varbinary");
+
+                    b.HasKey("userID");
+
+                    b.ToTable("ProfilePicture");
                 });
 
             modelBuilder.Entity("CM.Community_Back_end.Models.Tag", b =>
@@ -114,7 +153,8 @@ namespace CM.CommunityBackend.Migrations
 
                     b.Property<string>("tagName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("tagID");
 
@@ -140,25 +180,36 @@ namespace CM.CommunityBackend.Migrations
 
             modelBuilder.Entity("CM.Community_Back_end.Models.User", b =>
                 {
-                    b.Property<int>("userID")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("userID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<DateTime>("userBirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("userEmail")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("userName")
+                    b.Property<string>("userFirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("userLastName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("userPassword")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("userID");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
@@ -197,6 +248,17 @@ namespace CM.CommunityBackend.Migrations
                     b.ToTable("UserPosts");
                 });
 
+            modelBuilder.Entity("CM.Community_Back_end.Models.AttachmentPost", b =>
+                {
+                    b.HasOne("CM.Community_Back_end.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("postID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("CM.Community_Back_end.Models.CommentPost", b =>
                 {
                     b.HasOne("CM.Community_Back_end.Models.Comment", "Comment")
@@ -214,6 +276,28 @@ namespace CM.CommunityBackend.Migrations
                     b.Navigation("Comment");
 
                     b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("CM.Community_Back_end.Models.Post", b =>
+                {
+                    b.HasOne("CM.Community_Back_end.Models.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("groupID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+                });
+
+            modelBuilder.Entity("CM.Community_Back_end.Models.ProfilePicture", b =>
+                {
+                    b.HasOne("CM.Community_Back_end.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("userID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CM.Community_Back_end.Models.TagPost", b =>

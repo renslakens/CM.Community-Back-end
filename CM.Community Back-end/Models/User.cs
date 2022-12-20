@@ -9,12 +9,20 @@ namespace CM.Community_Back_end.Models
     public class User
     {
         [Key]
-        public int userID { get; set; }
+        public int UserId { get; set; }
 
+        [StringLength(50)]
         public string userEmail { get; set; }
 
-        public string userName { get; set; }
+        [StringLength(25)]
+        public string userFirstName { get; set; }
 
+        [StringLength(25)]
+        public string userLastName { get; set; }
+
+        public DateTime userBirthDate { get; set; }
+
+        [StringLength(50)]
         public string userPassword { get; set; }
     }
 }

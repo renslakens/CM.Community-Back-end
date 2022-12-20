@@ -12,8 +12,11 @@ namespace CM.Community_Back_end.Models
         [Key]
         public int postID { get; set; }
 
+        //[StringLength(50, MinimumLength = 3)]
+        [StringLength(50)]
         public string postTitle { get; set; }
 
+        [StringLength(360)]
         public string postText { get; set; }
 
         public DateTime publicationDate { get; set; }
@@ -21,7 +24,7 @@ namespace CM.Community_Back_end.Models
         public string Subject { get; set; }
 
         [ForeignKey("groupID")]
-        public Group groupID { get; set; }
+        public Group Group { get; set; }
 
 
     }

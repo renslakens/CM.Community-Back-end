@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CM.CommunityBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class addedmodels : Migration
+    public partial class onlinemigr : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,7 @@ namespace CM.CommunityBackend.Migrations
                 {
                     commentID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    commentText = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    commentText = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,27 +30,11 @@ namespace CM.CommunityBackend.Migrations
                 {
                     groupID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    groupName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    groupName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Groups", x => x.groupID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Posts",
-                columns: table => new
-                {
-                    postID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    postTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    postText = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    publicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posts", x => x.postID);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,7 +43,7 @@ namespace CM.CommunityBackend.Migrations
                 {
                     tagID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    tagName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    tagName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,15 +54,100 @@ namespace CM.CommunityBackend.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    userID = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    userEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPassword = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    userEmail = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    userFirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    userLastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    userBirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    userPassword = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.userID);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    postID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    postTitle = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    postText = table.Column<string>(type: "nvarchar(360)", maxLength: 360, nullable: false),
+                    publicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    groupID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.postID);
+                    table.ForeignKey(
+                        name: "FK_Posts_Groups_groupID",
+                        column: x => x.groupID,
+                        principalTable: "Groups",
+                        principalColumn: "groupID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProfilePicture",
+                columns: table => new
+                {
+                    userID = table.Column<int>(type: "int", nullable: false),
+                    profilePicture = table.Column<byte[]>(type: "varbinary(8000)", maxLength: 8000, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProfilePicture", x => x.userID);
+                    table.ForeignKey(
+                        name: "FK_ProfilePicture_Users_userID",
+                        column: x => x.userID,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserGroups",
+                columns: table => new
+                {
+                    groupID = table.Column<int>(type: "int", nullable: false),
+                    userID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserGroups", x => new { x.userID, x.groupID });
+                    table.ForeignKey(
+                        name: "FK_UserGroups_Groups_groupID",
+                        column: x => x.groupID,
+                        principalTable: "Groups",
+                        principalColumn: "groupID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserGroups_Users_userID",
+                        column: x => x.userID,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AttachmentPosts",
+                columns: table => new
+                {
+                    postID = table.Column<int>(type: "int", nullable: false),
+                    attachment = table.Column<byte[]>(type: "varbinary(8000)", maxLength: 8000, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AttachmentPosts", x => x.postID);
+                    table.ForeignKey(
+                        name: "FK_AttachmentPosts_Posts_postID",
+                        column: x => x.postID,
+                        principalTable: "Posts",
+                        principalColumn: "postID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,30 +199,6 @@ namespace CM.CommunityBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserGroups",
-                columns: table => new
-                {
-                    groupID = table.Column<int>(type: "int", nullable: false),
-                    userID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserGroups", x => new { x.userID, x.groupID });
-                    table.ForeignKey(
-                        name: "FK_UserGroups_Groups_groupID",
-                        column: x => x.groupID,
-                        principalTable: "Groups",
-                        principalColumn: "groupID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserGroups_Users_userID",
-                        column: x => x.userID,
-                        principalTable: "Users",
-                        principalColumn: "userID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserPosts",
                 columns: table => new
                 {
@@ -173,7 +218,7 @@ namespace CM.CommunityBackend.Migrations
                         name: "FK_UserPosts_Users_userID",
                         column: x => x.userID,
                         principalTable: "Users",
-                        principalColumn: "userID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -181,6 +226,11 @@ namespace CM.CommunityBackend.Migrations
                 name: "IX_CommentPosts_postID",
                 table: "CommentPosts",
                 column: "postID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_groupID",
+                table: "Posts",
+                column: "groupID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TagPosts_postID",
@@ -202,7 +252,13 @@ namespace CM.CommunityBackend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AttachmentPosts");
+
+            migrationBuilder.DropTable(
                 name: "CommentPosts");
+
+            migrationBuilder.DropTable(
+                name: "ProfilePicture");
 
             migrationBuilder.DropTable(
                 name: "TagPosts");
@@ -220,13 +276,13 @@ namespace CM.CommunityBackend.Migrations
                 name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Groups");
-
-            migrationBuilder.DropTable(
                 name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Groups");
         }
     }
 }

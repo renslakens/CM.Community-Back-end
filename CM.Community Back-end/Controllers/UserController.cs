@@ -13,6 +13,7 @@ namespace CM.Community_Back_end.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        
         public UserController(IUserService userService)
         {
             _userService = userService;
@@ -26,15 +27,15 @@ namespace CM.Community_Back_end.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<User>> getSingle(string email)
+        public async Task<ActionResult<User>> getSingle(int Id)
         {
-            return Ok(await _userService.getCharacterByEmail(email));
+            return Ok(await _userService.getUserById(Id));
         }
 
         [HttpPost]
         public async Task<ActionResult<List<User>>> addUser(User newUser)
         {
-            return Ok(await _userService.addUser(newUser));
+            return Ok(_userService.addUser(newUser));
         }
 
         [HttpPut]
@@ -46,6 +47,12 @@ namespace CM.Community_Back_end.Controllers
         [HttpDelete]
         public async Task<ActionResult<List<User>>> deleteUser(User deletedUser){
             return Ok(await _userService.deleteUser(deletedUser));
+        }
+
+        [HttpPost]
+        [Route("auth")]
+        public async Task<ActionResult<String>> loginUser(User user) {
+            return Ok(await _userService.loginUser(user));
         }
     }
 }
