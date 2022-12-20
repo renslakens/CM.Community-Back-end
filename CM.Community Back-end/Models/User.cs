@@ -9,7 +9,7 @@ namespace CM.Community_Back_end.Models
     public class User
     {
         [Key]
-        public int userID { get; set; }
+        public int UserId { get; set; }
 
         [StringLength(50)]
         public string userEmail { get; set; }

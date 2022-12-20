@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CM.CommunityBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221220084843_deletedusername")]
-    partial class deletedusername
+    [Migration("20221220123314_onlinemigr")]
+    partial class onlinemigr
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -180,11 +180,11 @@ namespace CM.CommunityBackend.Migrations
 
             modelBuilder.Entity("CM.Community_Back_end.Models.User", b =>
                 {
-                    b.Property<int>("userID")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("userID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<DateTime>("userBirthDate")
                         .HasColumnType("datetime2");
@@ -209,7 +209,7 @@ namespace CM.CommunityBackend.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("userID");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });

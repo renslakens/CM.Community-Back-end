@@ -177,11 +177,11 @@ namespace CM.CommunityBackend.Migrations
 
             modelBuilder.Entity("CM.Community_Back_end.Models.User", b =>
                 {
-                    b.Property<int>("userID")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("userID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<DateTime>("userBirthDate")
                         .HasColumnType("datetime2");
@@ -206,7 +206,7 @@ namespace CM.CommunityBackend.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("userID");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });

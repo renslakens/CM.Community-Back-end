@@ -6,46 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CM.CommunityBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class deletedusername : Migration
+    public partial class onlinemigr : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //dropping tables
-            migrationBuilder.DropTable(
-                name: "AttachmentPosts");
-
-            migrationBuilder.DropTable(
-                name: "CommentPosts");
-
-            migrationBuilder.DropTable(
-                name: "ProfilePicture");
-
-            migrationBuilder.DropTable(
-                name: "TagPosts");
-
-            migrationBuilder.DropTable(
-                name: "UserGroups");
-
-            migrationBuilder.DropTable(
-                name: "UserPosts");
-
-            migrationBuilder.DropTable(
-                name: "Comments");
-
-            migrationBuilder.DropTable(
-                name: "Tags");
-
-            migrationBuilder.DropTable(
-                name: "Posts");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Groups");
-
-            //creating tables
             migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
@@ -89,7 +54,7 @@ namespace CM.CommunityBackend.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    userID = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     userEmail = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     userFirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
@@ -99,7 +64,7 @@ namespace CM.CommunityBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.userID);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -139,7 +104,7 @@ namespace CM.CommunityBackend.Migrations
                         name: "FK_ProfilePicture_Users_userID",
                         column: x => x.userID,
                         principalTable: "Users",
-                        principalColumn: "userID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -163,7 +128,7 @@ namespace CM.CommunityBackend.Migrations
                         name: "FK_UserGroups_Users_userID",
                         column: x => x.userID,
                         principalTable: "Users",
-                        principalColumn: "userID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -253,7 +218,7 @@ namespace CM.CommunityBackend.Migrations
                         name: "FK_UserPosts_Users_userID",
                         column: x => x.userID,
                         principalTable: "Users",
-                        principalColumn: "userID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
