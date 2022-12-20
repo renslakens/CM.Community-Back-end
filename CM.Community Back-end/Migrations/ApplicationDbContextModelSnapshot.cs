@@ -27,8 +27,10 @@ namespace CM.CommunityBackend.Migrations
                     b.Property<int>("postID")
                         .HasColumnType("int");
 
-                    b.Property<byte>("attachment")
-                        .HasColumnType("MediumBlob");
+                    b.Property<byte[]>("attachment")
+                        .IsRequired()
+                        .HasMaxLength(8000)
+                        .HasColumnType("varbinary");
 
                     b.HasKey("postID");
 
@@ -128,12 +130,14 @@ namespace CM.CommunityBackend.Migrations
                     b.Property<int>("userID")
                         .HasColumnType("int");
 
-                    b.Property<byte>("profilePicture")
-                        .HasColumnType("MediumBlob");
+                    b.Property<byte[]>("profilePicture")
+                        .IsRequired()
+                        .HasMaxLength(8000)
+                        .HasColumnType("varbinary");
 
                     b.HasKey("userID");
 
-                    b.ToTable("Picture");
+                    b.ToTable("ProfilePicture");
                 });
 
             modelBuilder.Entity("CM.Community_Back_end.Models.Tag", b =>
@@ -196,11 +200,6 @@ namespace CM.CommunityBackend.Migrations
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("userName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("userPassword")
                         .IsRequired()

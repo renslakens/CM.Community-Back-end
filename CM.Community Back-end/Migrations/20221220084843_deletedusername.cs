@@ -6,11 +6,46 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CM.CommunityBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class addedmaxlength : Migration
+    public partial class deletedusername : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            //dropping tables
+            migrationBuilder.DropTable(
+                name: "AttachmentPosts");
+
+            migrationBuilder.DropTable(
+                name: "CommentPosts");
+
+            migrationBuilder.DropTable(
+                name: "ProfilePicture");
+
+            migrationBuilder.DropTable(
+                name: "TagPosts");
+
+            migrationBuilder.DropTable(
+                name: "UserGroups");
+
+            migrationBuilder.DropTable(
+                name: "UserPosts");
+
+            migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Groups");
+
+            //creating tables
             migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
@@ -57,7 +92,6 @@ namespace CM.CommunityBackend.Migrations
                     userID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     userEmail = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    userName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     userFirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     userLastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     userBirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -92,17 +126,17 @@ namespace CM.CommunityBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Picture",
+                name: "ProfilePicture",
                 columns: table => new
                 {
                     userID = table.Column<int>(type: "int", nullable: false),
-                    profilePicture = table.Column<byte>(type: "MediumBlob", nullable: false)
+                    profilePicture = table.Column<byte[]>(type: "varbinary(8000)", maxLength: 8000, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Picture", x => x.userID);
+                    table.PrimaryKey("PK_ProfilePicture", x => x.userID);
                     table.ForeignKey(
-                        name: "FK_Picture_Users_userID",
+                        name: "FK_ProfilePicture_Users_userID",
                         column: x => x.userID,
                         principalTable: "Users",
                         principalColumn: "userID",
@@ -138,7 +172,7 @@ namespace CM.CommunityBackend.Migrations
                 columns: table => new
                 {
                     postID = table.Column<int>(type: "int", nullable: false),
-                    attachment = table.Column<byte>(type: "MediumBlob", nullable: false)
+                    attachment = table.Column<byte[]>(type: "varbinary(8000)", maxLength: 8000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -259,7 +293,7 @@ namespace CM.CommunityBackend.Migrations
                 name: "CommentPosts");
 
             migrationBuilder.DropTable(
-                name: "Picture");
+                name: "ProfilePicture");
 
             migrationBuilder.DropTable(
                 name: "TagPosts");
