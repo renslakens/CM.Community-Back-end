@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CM.CommunityBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221219154254_addedmaxlength")]
+    [Migration("20221220084446_addedmaxlength")]
     partial class addedmaxlength
     {
         /// <inheritdoc />
@@ -30,8 +30,10 @@ namespace CM.CommunityBackend.Migrations
                     b.Property<int>("postID")
                         .HasColumnType("int");
 
-                    b.Property<byte>("attachment")
-                        .HasColumnType("MediumBlob");
+                    b.Property<byte[]>("attachment")
+                        .IsRequired()
+                        .HasMaxLength(8000)
+                        .HasColumnType("varbinary");
 
                     b.HasKey("postID");
 
@@ -131,12 +133,14 @@ namespace CM.CommunityBackend.Migrations
                     b.Property<int>("userID")
                         .HasColumnType("int");
 
-                    b.Property<byte>("profilePicture")
-                        .HasColumnType("MediumBlob");
+                    b.Property<byte[]>("profilePicture")
+                        .IsRequired()
+                        .HasMaxLength(8000)
+                        .HasColumnType("varbinary");
 
                     b.HasKey("userID");
 
-                    b.ToTable("Picture");
+                    b.ToTable("ProfilePicture");
                 });
 
             modelBuilder.Entity("CM.Community_Back_end.Models.Tag", b =>
