@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CM.Community_Back_end.Models;
 using CmCommunityBackend.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CM.Community_Back_end.Services.UserService
 {
@@ -16,6 +18,12 @@ namespace CM.Community_Back_end.Services.UserService
             new User{userFirstName = "Lies", userEmail = "urMOm<3", userPassword = "Urdad<3"},
             new User{userFirstName = "Ay", userEmail = "urMom<3", userPassword = "Urdad<3" }
         };
+        private readonly IConfiguration _configuration;
+        public UserService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         private int getIndexById(User user)
         {
             return users.FindIndex((u) => u.userID == user.userID);
@@ -57,12 +65,26 @@ namespace CM.Community_Back_end.Services.UserService
 
             //TODO: Token genereren en terugsturen
 
-            if (isValidPassword) {
-                await _context.Users.AddAsync(user);
-                await _context.SaveChangesAsync();
-            }
+            string token = CreateToken(user);
+
+            //if (isValidPassword) {
+            //    await _context.Users.AddAsync(user);
+            //    await _context.SaveChangesAsync();
+            //}
 
             return "Invalid";
+        }
+
+        private string CreateToken(User user)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.userFirstName)
+            };
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes())
+
+            return string.Empty;
         }
     }
 }
