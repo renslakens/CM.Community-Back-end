@@ -9,7 +9,7 @@ namespace CM.Community_Back_end.Models
 {
     public class Post
     {
-        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity), Key()]
         public int postID { get; set; }
 
         //[StringLength(50, MinimumLength = 3)]
