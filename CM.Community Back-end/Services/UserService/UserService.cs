@@ -29,7 +29,7 @@ namespace CM.Community_Back_end.Services.UserService
         public async Task<User> addUser(User newUser)
         {
             newUser.userPassword = BCrypt.Net.BCrypt.HashPassword(newUser.userPassword);
-            _context.Users.AddAsync(newUser);
+            await _context.Users.AddAsync(newUser);
             await _context.SaveChangesAsync();
 
             return newUser;
@@ -66,7 +66,7 @@ namespace CM.Community_Back_end.Services.UserService
 
         public async Task<String> loginUser(User user) {
             //Gehashte wachtwoord checken met het ingevoerde wachtwoord
-            var oUser = _context.Users.FirstOrDefault(c => c.userEmail == user.userEmail);
+            var oUser = _context.Users.FirstOrDefault(c => c.UserId == user.UserId);
             bool isValidPassword = BCrypt.Net.BCrypt.Verify(user.userPassword, oUser.userPassword);
 
             string token = CreateToken(user);
