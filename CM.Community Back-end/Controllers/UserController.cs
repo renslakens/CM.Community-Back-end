@@ -35,7 +35,8 @@ namespace CM.Community_Back_end.Controllers
         [HttpPost]
         public async Task<ActionResult<List<User>>> addUser(User newUser)
         {
-            return Ok(_userService.addUser(newUser));
+            //return Ok(_userService.addUser(newUser));
+            return CreatedAtAction(nameof(getSingle), await _userService.addUser(newUser));
         }
 
         [HttpPut]
