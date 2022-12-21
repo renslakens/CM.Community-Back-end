@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CM.CommunityBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221220123314_onlinemigr")]
-    partial class onlinemigr
+    [Migration("20221221100536_longerpasswordlength")]
+    partial class longerpasswordlength
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -206,8 +206,8 @@ namespace CM.CommunityBackend.Migrations
 
                     b.Property<string>("userPassword")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.HasKey("UserId");
 

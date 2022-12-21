@@ -23,7 +23,7 @@ namespace CM.Community_Back_end.Models
 
         public DateTime userBirthDate { get; set; }
 
-        [StringLength(50)]
+        [StringLength(60)]
         public string userPassword { get; set; }
     }
 }
