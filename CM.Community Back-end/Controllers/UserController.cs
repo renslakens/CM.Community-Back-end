@@ -37,7 +37,7 @@ namespace CM.Community_Back_end.Controllers
         public async Task<ActionResult<List<User>>> addUser(User newUser)
         {
             //return Ok(_userService.addUser(newUser));
-            return CreatedAtAction(nameof(addUser), await _userService.addUser(newUser));
+            return Ok(CreatedAtAction(nameof(addUser), await _userService.addUser(newUser)));
         }
 
         [HttpPut]
@@ -55,7 +55,7 @@ namespace CM.Community_Back_end.Controllers
         [Route("auth")]
         public async Task<ActionResult<String>> loginUser(UserDTO user) {
             //return Ok(await _userService.loginUser(user));
-            return CreatedAtAction(nameof(loginUser), await _userService.loginUser(user));
+            return Ok(CreatedAtAction(nameof(loginUser), await _userService.loginUser(user)));
         }
     }
 }
