@@ -48,8 +48,10 @@ namespace CM.Community_Back_end.Services.PostService
             return posts;
         }
 
-        public async Task<List<Post>> AddPost(Post newPost)
+        public async Task<List<Post>> AddPost(Post newPost, int groupID)
         {
+            groupID = newPost.groupID;
+
             _context.Posts.Add(newPost);
             await _context.SaveChangesAsync();
             return await _context.Posts.ToListAsync();
