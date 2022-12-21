@@ -6,11 +6,46 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CM.CommunityBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class onlinemigr : Migration
+    public partial class longerpasswordlength : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            //dropping tables
+            migrationBuilder.DropTable(
+    name: "AttachmentPosts");
+
+            migrationBuilder.DropTable(
+                name: "CommentPosts");
+
+            migrationBuilder.DropTable(
+                name: "ProfilePicture");
+
+            migrationBuilder.DropTable(
+                name: "TagPosts");
+
+            migrationBuilder.DropTable(
+                name: "UserGroups");
+
+            migrationBuilder.DropTable(
+                name: "UserPosts");
+
+            migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Groups");
+
+            //creating tables
             migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
@@ -60,7 +95,7 @@ namespace CM.CommunityBackend.Migrations
                     userFirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     userLastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     userBirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    userPassword = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    userPassword = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false)
                 },
                 constraints: table =>
                 {
