@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CM.Community_Back_end.DTO;
 using CM.Community_Back_end.Models;
 using CmCommunityBackend.Data;
 using Microsoft.EntityFrameworkCore;
@@ -64,9 +65,9 @@ namespace CM.Community_Back_end.Services.UserService
         //    return users;
         //}
 
-        public async Task<String> loginUser(User user) {
+        public async Task<String> loginUser(UserDTO user) {
             //Gehashte wachtwoord checken met het ingevoerde wachtwoord
-            var oUser = _context.Users.FirstOrDefault(c => c.UserId == user.UserId);
+            var oUser = _context.Users.FirstOrDefault(c => c.userEmail == user.userEmail);
             bool isValidPassword = BCrypt.Net.BCrypt.Verify(user.userPassword, oUser.userPassword);
 
             string token = CreateToken(user);
@@ -78,11 +79,11 @@ namespace CM.Community_Back_end.Services.UserService
             return "Invalid login";
         }
 
-        private string CreateToken(User user)
+        private string CreateToken(UserDTO user)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.userFirstName)
+                new Claim(ClaimTypes.Name, user.userEmail),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
