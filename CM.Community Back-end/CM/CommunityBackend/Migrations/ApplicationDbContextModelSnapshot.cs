@@ -223,8 +223,6 @@ namespace CM.CommunityBackend.Migrations
 
                     b.HasKey("userID", "groupID");
 
-                    b.HasIndex("groupID");
-
                     b.ToTable("UserGroups");
                 });
 
@@ -314,25 +312,6 @@ namespace CM.CommunityBackend.Migrations
                     b.Navigation("Post");
 
                     b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("CM.Community_Back_end.Models.UserGroup", b =>
-                {
-                    b.HasOne("CM.Community_Back_end.Models.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("groupID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CM.Community_Back_end.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("userID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Group");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CM.Community_Back_end.Models.UserPost", b =>

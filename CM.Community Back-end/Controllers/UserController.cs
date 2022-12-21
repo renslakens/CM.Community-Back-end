@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CM.Community_Back_end.DTO;
 using CM.Community_Back_end.Models;
 using CM.Community_Back_end.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +37,7 @@ namespace CM.Community_Back_end.Controllers
         public async Task<ActionResult<List<User>>> addUser(User newUser)
         {
             //return Ok(_userService.addUser(newUser));
-            return CreatedAtAction(nameof(getSingle), await _userService.addUser(newUser));
+            return CreatedAtAction(nameof(addUser), await _userService.addUser(newUser));
         }
 
         [HttpPut]
@@ -52,8 +53,9 @@ namespace CM.Community_Back_end.Controllers
 
         [HttpPost]
         [Route("auth")]
-        public async Task<ActionResult<String>> loginUser(User user) {
-            return Ok(await _userService.loginUser(user));
+        public async Task<ActionResult<String>> loginUser(UserDTO user) {
+            //return Ok(await _userService.loginUser(user));
+            return CreatedAtAction(nameof(loginUser), await _userService.loginUser(user));
         }
     }
 }

@@ -1,6 +1,7 @@
 using CM.Community_Back_end.Services.PostService;
 using CM.Community_Back_end.Services.UserService;
 using System.Reflection;
+using CM.Community_Back_end.Services.GroupService;
 using CmCommunityBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 //        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 //}
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection1");
 
 // Add services to the container.
 
@@ -27,6 +28,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IGroupService, GroupService>();
 
 var app = builder.Build();
 

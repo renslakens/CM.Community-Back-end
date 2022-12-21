@@ -10,14 +10,16 @@ namespace CM.Community_Back_end.Models
     public class UserGroup
     {
         [Key, Column(Order = 1)]
+        [ForeignKey("groupID")]
         public int groupID { get; set; }
         [Key, Column(Order = 2)]
+        [ForeignKey("userID")]
         public int userID { get; set; }
 
-        [ForeignKey("groupID")]
-        public Group Group { get; set; }
+        
+        //public Group Group { get; set; }
 
-        [ForeignKey("userID")]
-        public User User { get; set; }
+        
+        //public User User { get; set; }
     }
 }

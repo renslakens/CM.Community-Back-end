@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CM.Community_Back_end.DTO;
 using CM.Community_Back_end.Models;
 
 namespace CM.Community_Back_end.Services.UserService
@@ -13,6 +14,6 @@ namespace CM.Community_Back_end.Services.UserService
         Task<User> addUser(User newUser);
         Task<List<User>> updateUser(User updatedUser);
         Task<List<User>> deleteUser(User deletedUser);
-        Task<String> loginUser(User user);
+        Task<String> loginUser(UserDTO user);
     }
 }

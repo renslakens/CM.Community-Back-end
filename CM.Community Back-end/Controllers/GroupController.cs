@@ -21,9 +21,9 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Group>>> addGroup(Group newGroup)
+        public async Task<ActionResult<Group>> addGroup(Group newGroup)
         {
-            return Ok(await _groupService.addGroup(newGroup));
+            return CreatedAtAction(nameof(addGroup), await _groupService.addGroup(newGroup));
         }
 
         [HttpDelete]
@@ -31,12 +31,12 @@ namespace CM.Community_Back_end.Controllers
         {
             return Ok(await _groupService.deleteGroup(deletedGroup));
         }
-
-        //joining group
-        [HttpPost("join")]
-        public async Task<ActionResult<List<UserGroup>>> joinGroup(UserGroup newUserInGroup)
+        
+        [HttpPost]
+        [Route("join")]
+        public async Task<ActionResult<UserGroup>> joinGroup(UserGroup newUserInGroup)
         {
-            return Ok(await _groupService.joinGroup(newUserInGroup));
+            return CreatedAtAction(nameof(joinGroup), await _groupService.joinGroup(newUserInGroup));
         }
 
     }
