@@ -39,15 +39,15 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<Post>> UpdatePost(Post updatedPost)
+        public async Task<ActionResult<Post>> UpdatePost(int postID, Post updatedPost)
         {
-            return Ok(await _postService.UpdatePost(updatedPost));
+            return Ok(await _postService.UpdatePost(postID, updatedPost));
         }
 
         [HttpDelete]
-        public async Task<ActionResult<Post>> DeletePost(Post deletedPost)
+        public async Task<ActionResult<Post>> DeletePost(int postID)
         {
-            return Ok(await _postService.DeletePost(deletedPost));
+            return Ok(await _postService.DeletePost(postID));
         }
 
     }

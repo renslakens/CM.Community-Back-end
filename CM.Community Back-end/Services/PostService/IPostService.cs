@@ -10,12 +10,12 @@ namespace CM.Community_Back_end.Services.PostService
     {
         Task<List<Post>> GetAllPosts();
 
-        Task<Post> GetPostById(int postID);
+        Task<Post?> GetPostById(int postID);
 
         Task<List<Post>> AddPost(Post newPost);
 
-        Task<Post> UpdatePost(Post updatedPost);
+        Task<Post?> UpdatePost(int postID, Post updatedPost);
 
-        Task<Post> DeletePost(Post deletedPost);
+        Task<Post?> DeletePost(int postId);
     }
 }
