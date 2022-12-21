@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 //        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 //}
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection1");
 
 // Add services to the container.
 
