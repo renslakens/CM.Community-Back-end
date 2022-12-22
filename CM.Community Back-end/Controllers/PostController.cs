@@ -35,7 +35,7 @@ namespace CM.Community_Back_end.Controllers
         [HttpPost("New")]
         public async Task<ActionResult<List<Post>>> AddPost(Post newPost)
         {
-            return Ok(await _postService.AddPost(newPost));
+            return CreatedAtAction(nameof(AddPost), await _postService.AddPost(newPost));
         }
 
         [HttpPut]
