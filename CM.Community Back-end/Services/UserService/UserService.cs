@@ -68,6 +68,11 @@ namespace CM.Community_Back_end.Services.UserService
         public async Task<String> loginUser(UserDTO user) {
             //Gehashte wachtwoord checken met het ingevoerde wachtwoord
             var oUser = _context.Users.FirstOrDefault(c => c.userEmail == user.userEmail);
+
+            if (oUser == null) {
+                return "User does not exist";
+            }
+
             bool isValidPassword = BCrypt.Net.BCrypt.Verify(user.userPassword, oUser.userPassword);
 
             string token = CreateToken(user);
