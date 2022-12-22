@@ -39,5 +39,12 @@ namespace CM.Community_Back_end.Controllers
             return CreatedAtAction(nameof(joinGroup), await _groupService.joinGroup(newUserInGroup));
         }
 
+        [HttpGet]
+        [Route("get")]
+        public async Task<ActionResult<List<Group>>> getGroupByUserID(int currentUserID)
+        {
+            return Ok(await _groupService.getGroupByUserID(currentUserID));
+        }
+
     }
 }

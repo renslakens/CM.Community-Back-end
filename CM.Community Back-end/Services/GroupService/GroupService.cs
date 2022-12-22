@@ -70,5 +70,17 @@ namespace CM.Community_Back_end.Services.GroupService
 
             return newUserInGroup;
         }
+
+        public async Task<List<Group>> getGroupByUserID(int currentUserID)
+        {
+            var testing = _context;
+            var groups = testing.Groups.FromSql($"Select G.groupID, G.Groupname From Groups G INNER JOIN UserGroups UG ON G.groupID = UG.GroupID WHERE UserId = {currentUserID}").ToList<Group>();
+            //var groups = testing.Groups.FromSql($"Select * FROM UserGroups WHERE UserId = {currentUserID}").ToList<Group>();
+            //var groups1 = testing.Groups.FromSql($"Select * FROM UserGroups WHERE UserId = {currentUserID}").ToList<Group>();
+            return groups;
+
+            //var innerJoinQuery =
+            //from filteredgroups in User.
+        }
     }
 }
