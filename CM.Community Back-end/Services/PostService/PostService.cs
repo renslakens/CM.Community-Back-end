@@ -39,13 +39,17 @@ namespace CM.Community_Back_end.Services.PostService
             return posts;
         }
 
-        public async Task<Post?> GetPostById(int postID)
+        public async Task<List<Post?>> GetPostById(int groupID)
         {
-            var posts = await _context.Posts.FindAsync(postID);
-            if (posts is null)
-                return null;
+            // var posts = await _context.Posts.ToListAsync(groupID);
+            // if (posts is null)  
+            //     return null;
 
-            return posts;
+            // return posts;
+
+            var testing = _context;
+            var groups = testing.Posts.FromSql($"Select * From Posts WHERE groupID = {groupID}").ToList<Post>();
+            return groups;
         }
 
         public async Task<List<Post>> AddPost(Post newPost, int groupID)

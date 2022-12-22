@@ -27,7 +27,7 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Post>> GetSingle(int id)
+        public async Task<ActionResult<List<Post>>> GetGroupPost(int id)
         {
             return Ok(await _postService.GetPostById(id));
         }
