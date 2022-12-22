@@ -40,7 +40,13 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpGet]
-        [Route("get")]
+        [Route("GetAll")]
+        public async Task<ActionResult<List<Group>>> getAllGroups()
+        {
+            return Ok(await _groupService.GetAllGroups());
+        }
+
+        [HttpGet]
         public async Task<ActionResult<List<Group>>> getGroupByUserID(int currentUserID)
         {
             return Ok(await _groupService.getGroupByUserID(currentUserID));
