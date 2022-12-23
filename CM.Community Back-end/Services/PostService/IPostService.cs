@@ -12,7 +12,7 @@ namespace CM.Community_Back_end.Services.PostService
 
         Task<Post?> GetPostById(int postID);
 
-        Task<List<Post>> AddPost(Post newPost, int groupID);
+        Task<List<Post>> AddPost(Post newPost, int? groupID);
 
         Task<Post?> UpdatePost(int postID, Post updatedPost);
 

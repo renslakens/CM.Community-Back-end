@@ -48,7 +48,7 @@ namespace CM.Community_Back_end.Services.PostService
             return posts;
         }
 
-        public async Task<List<Post>> AddPost(Post newPost, int groupID)
+        public async Task<List<Post>> AddPost(Post newPost, int? groupID)
         {
             groupID = newPost.groupID;
 
