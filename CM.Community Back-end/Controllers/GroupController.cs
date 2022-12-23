@@ -27,9 +27,9 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult<List<Group>>> deleteGroup(Group deletedGroup)
+        public async Task<ActionResult<List<Group>>> deleteGroup(int groupID)
         {
-            return Ok(await _groupService.deleteGroup(deletedGroup));
+            return Ok(await _groupService.deleteGroup(groupID));
         }
         
         [HttpPost]
