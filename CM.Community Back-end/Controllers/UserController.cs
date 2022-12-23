@@ -47,8 +47,8 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult<List<User>>> deleteUser(User deletedUser){
-            return Ok(await _userService.deleteUser(deletedUser));
+        public async Task<ActionResult<List<User>>> deleteUser(int userID){
+            return Ok(await _userService.deleteUser(userID));
         }
 
         [HttpPost]

@@ -13,7 +13,7 @@ namespace CM.Community_Back_end.Services.UserService
         Task<User> getUserById(int Id);
         Task<User> addUser(User newUser);
         Task<List<User>> updateUser(User updatedUser);
-        Task<List<User>> deleteUser(User deletedUser);
+        Task<User> deleteUser(int userID);
         Task<String> loginUser(UserDTO user);
     }
 }

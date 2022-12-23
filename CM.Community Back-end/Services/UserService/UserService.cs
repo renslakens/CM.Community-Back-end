@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CM.Community_Back_end.DTO;
 using CM.Community_Back_end.Models;
@@ -40,8 +41,15 @@ namespace CM.Community_Back_end.Services.UserService
             throw new NotImplementedException();
         }
 
-        public Task<List<User>> deleteUser(User deletedUser) {
-            throw new NotImplementedException();
+        public async Task<User?> deleteUser(int userID) {
+            var users = await _context.Users.FindAsync(userID);
+            if (users is null)
+                return null;
+
+            _context.Users.Remove(users);
+            await _context.SaveChangesAsync();
+
+            return users;
         }
 
         public async Task<List<User>> GetAllUsers()
