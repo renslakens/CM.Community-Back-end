@@ -39,7 +39,7 @@ namespace CM.Community_Back_end.Services.PostService
             return posts;
         }
 
-        public async Task<List<Post?>> GetPostById(int groupID)
+        public async Task<List<Post?>> GetPostById(string groupID)
         {
             // var posts = await _context.Posts.ToListAsync(groupID);
             // if (posts is null)  
