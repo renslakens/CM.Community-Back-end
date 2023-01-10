@@ -94,9 +94,11 @@ namespace CM.Community_Back_end.Services.UserService
 
         private string CreateToken(UserDTO user)
         {
+            var oUser = _context.Users.FirstOrDefault(c => c.userEmail == user.userEmail);
+
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.userEmail),
+                new Claim(ClaimTypes.Name, oUser.UserId.ToString()),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

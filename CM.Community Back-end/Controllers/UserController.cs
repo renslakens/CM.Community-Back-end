@@ -54,8 +54,9 @@ namespace CM.Community_Back_end.Controllers
         [HttpPost]
         [Route("auth")]
         public async Task<ActionResult<String>> loginUser(UserDTO user) {
-            //return Ok(await _userService.loginUser(user));
-            return Ok(CreatedAtAction(nameof(loginUser), await _userService.loginUser(user)));
+            var loginUser = await _userService.loginUser(user);
+            //return Ok(loginUser);
+            return Ok(CreatedAtAction(nameof(loginUser), loginUser));
         }
     }
 }
