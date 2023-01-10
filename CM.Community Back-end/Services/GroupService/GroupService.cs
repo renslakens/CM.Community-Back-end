@@ -87,15 +87,17 @@ namespace CM.Community_Back_end.Services.GroupService
 
         public async Task<List<Group>> getUnjoinedGroupsByUserID(int currentUserID)
         {
-            //var testing = _context;
-            //var createView = testing.Groups.FromSql($"SELECT G.groupName, G.groupID FROM Groups G WHERE G.groupID IN (SELECT G.groupID FROM UserGroups UG WHERE UG.groupID = G.groupID HAVING COUNT(UG.userID) <= 1);").ToList<Group>;
-            ////var dropView = testing.Groups.FromSql($" DROP VIEW IF EXISTS notjoinedgroups;");
-            ////var groups = createView.Groups.FromSql($"SELECT * FROM notjoinedgroups WHERE groupID != ANY(SELECT groupID FROM UserGroups WHERE userID = {currentUserID});").ToList<Group>();
-            //return createView;
-
-
             var testing = _context;
-            var groups = testing.Groups.FromSql($"Select G.groupID, G.Groupname From Groups G INNER JOIN UserGroups UG ON G.groupID = UG.GroupID WHERE UserId = {currentUserID}").ToList<Group>();
+            var groups = new List<Group>();
+
+            var userGroups = testing.UserGroups
+            .Where(t => currentUserID.Equals(t.userID)).ToList<UserGroup>();
+
+            foreach (var user in userGroups)
+            {
+                groups = testing.Groups
+                .Where(t => user.groupID != (t.groupID)).ToList<Group>();
+            }
             return groups;
         }
     }

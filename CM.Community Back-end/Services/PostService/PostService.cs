@@ -61,21 +61,7 @@ namespace CM.Community_Back_end.Services.PostService
             {
                 userPosts = testing.Posts
                 .Where(t => user.groupID.Equals(t.groupID)).ToList<Post>();
-                return userPosts;
             }
-
-            //var groupIDUser = new UserGroup { groupID = 1, userID = 1};
-            //var groupIDUserTest = groupIDUser.groupID;
-
-
-
-
-
-            //var userPosts = testing.Posts
-            //.Where(t => groupIDUserTest.Equals(t.groupID)).ToList<Post>();
-
-
-
             return userPosts;
         }
 
