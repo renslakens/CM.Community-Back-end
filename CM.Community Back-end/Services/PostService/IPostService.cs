@@ -10,7 +10,9 @@ namespace CM.Community_Back_end.Services.PostService
     {
         Task<List<Post>> GetAllPosts();
 
-        Task<List<Post?>> GetPostById(string postID);
+        Task<List<Post?>> GetPostByGroupId(int postID);
+
+        Task<List<Post?>> GetPostByUserId(int userID);
 
         Task<List<Post>> AddPost(Post newPost, int? groupID);
 
