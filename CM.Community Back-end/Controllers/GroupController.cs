@@ -31,7 +31,15 @@ namespace CM.Community_Back_end.Controllers
         {
             return Ok(await _groupService.deleteGroup(groupID));
         }
-        
+
+        [HttpDelete]
+        [Route("leave")]
+        public async Task<ActionResult<List<Group>>> leaveGroup(UserGroup leavingUserFromGroup)
+        {
+            return Ok(await _groupService.leaveGroup(leavingUserFromGroup));
+        }
+
+
         [HttpPost]
         [Route("join")]
         public async Task<ActionResult<UserGroup>> joinGroup(UserGroup newUserInGroup)

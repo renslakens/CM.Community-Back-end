@@ -78,6 +78,22 @@ namespace CM.Community_Back_end.Services.GroupService
             return newUserInGroup;
         }
 
+        public async Task<UserGroup> leaveGroup(UserGroup leavingUserFromGroup)
+        {
+            var userid = leavingUserFromGroup.userID;
+            var groupid = leavingUserFromGroup.groupID;
+
+
+            var usergroups = await _context.UserGroups.FindAsync(userid, groupid);
+            if (usergroups is null)
+                return null;
+
+            _context.UserGroups.Remove(usergroups);
+            await _context.SaveChangesAsync();
+
+            return usergroups;
+        }
+
         public async Task<List<Group>> getGroupByUserID(int currentUserID)
         {
             var testing = _context;
