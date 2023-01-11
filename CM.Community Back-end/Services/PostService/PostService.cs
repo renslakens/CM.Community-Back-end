@@ -36,6 +36,7 @@ namespace CM.Community_Back_end.Services.PostService
         public async Task<List<Post>> GetAllPosts()
         {
             var posts = await _context.Posts.ToListAsync();
+            posts.Reverse();
             return posts;
         }
 
@@ -46,6 +47,7 @@ namespace CM.Community_Back_end.Services.PostService
             var groups = testing.Posts
             .Where(t => groupID.Equals(t.groupID)).ToList<Post>();
 
+            groups.Reverse();
             return groups;
         }
 
@@ -62,6 +64,7 @@ namespace CM.Community_Back_end.Services.PostService
                 userPosts = testing.Posts
                 .Where(t => user.groupID.Equals(t.groupID)).ToList<Post>();
             }
+            userPosts.Reverse();
             return userPosts;
         }
 
