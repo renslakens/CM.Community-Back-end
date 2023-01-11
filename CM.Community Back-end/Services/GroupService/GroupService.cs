@@ -81,7 +81,28 @@ namespace CM.Community_Back_end.Services.GroupService
         public async Task<List<Group>> getGroupByUserID(int currentUserID)
         {
             var testing = _context;
-            var groups = testing.Groups.FromSql($"Select G.groupID, G.Groupname From Groups G INNER JOIN UserGroups UG ON G.groupID = UG.GroupID WHERE UserId = {currentUserID}").ToList<Group>();
+            var groups = new List<Group>();
+            var groupsnotdistinct = new List<Group>();
+
+            var userGroups = testing.UserGroups
+                            .Where(t => currentUserID.Equals(t.userID)).ToList<UserGroup>();
+
+            if (userGroups.Count > 0)
+            {
+                foreach (var user in userGroups)
+                {
+                    var joinedgroups = testing.Groups
+                                       .Where(t => user.groupID.Equals(t.groupID)).ToList<Group>();
+
+                    groupsnotdistinct.AddRange(joinedgroups);
+
+                }
+
+                foreach (var group in groupsnotdistinct)
+                {
+                    groups.Add(group);
+                }
+            }
             return groups;
         }
 
