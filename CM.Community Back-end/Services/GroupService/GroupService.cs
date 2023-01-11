@@ -78,24 +78,76 @@ namespace CM.Community_Back_end.Services.GroupService
             return newUserInGroup;
         }
 
+        public async Task<UserGroup> leaveGroup(UserGroup leavingUserFromGroup)
+        {
+            var userid = leavingUserFromGroup.userID;
+            var groupid = leavingUserFromGroup.groupID;
+
+
+            var usergroups = await _context.UserGroups.FindAsync(userid, groupid);
+            if (usergroups is null)
+                return null;
+
+            _context.UserGroups.Remove(usergroups);
+            await _context.SaveChangesAsync();
+
+            return usergroups;
+        }
+
         public async Task<List<Group>> getGroupByUserID(int currentUserID)
         {
             var testing = _context;
-            var groups = testing.Groups.FromSql($"Select G.groupID, G.Groupname From Groups G INNER JOIN UserGroups UG ON G.groupID = UG.GroupID WHERE UserId = {currentUserID}").ToList<Group>();
+            var groups = new List<Group>();
+            var groupsnotdistinct = new List<Group>();
+
+            var userGroups = testing.UserGroups
+                            .Where(t => currentUserID.Equals(t.userID)).ToList<UserGroup>();
+
+            if (userGroups.Count > 0)
+            {
+                foreach (var user in userGroups)
+                {
+                    var joinedgroups = testing.Groups
+                                       .Where(t => user.groupID.Equals(t.groupID)).ToList<Group>();
+
+                    groupsnotdistinct.AddRange(joinedgroups);
+
+                }
+
+                foreach (var group in groupsnotdistinct)
+                {
+                    groups.Add(group);
+                }
+            }
             return groups;
         }
 
         public async Task<List<Group>> getUnjoinedGroupsByUserID(int currentUserID)
         {
-            //var testing = _context;
-            //var createView = testing.Groups.FromSql($"SELECT G.groupName, G.groupID FROM Groups G WHERE G.groupID IN (SELECT G.groupID FROM UserGroups UG WHERE UG.groupID = G.groupID HAVING COUNT(UG.userID) <= 1);").ToList<Group>;
-            ////var dropView = testing.Groups.FromSql($" DROP VIEW IF EXISTS notjoinedgroups;");
-            ////var groups = createView.Groups.FromSql($"SELECT * FROM notjoinedgroups WHERE groupID != ANY(SELECT groupID FROM UserGroups WHERE userID = {currentUserID});").ToList<Group>();
-            //return createView;
-
-
             var testing = _context;
-            var groups = testing.Groups.FromSql($"Select G.groupID, G.Groupname From Groups G INNER JOIN UserGroups UG ON G.groupID = UG.GroupID WHERE UserId = {currentUserID}").ToList<Group>();
+            var groups = testing.Groups.ToList<Group>();
+            var groupsnotdistinct = new List<Group>();
+
+            var userGroups = testing.UserGroups
+            .Where(t => currentUserID.Equals(t.userID)).ToList<UserGroup>();
+
+            if (userGroups.Count > 0)
+            {
+                foreach (var user in userGroups)
+                {
+                    var unjoinedgroups = testing.Groups
+                    .Where(t => user.groupID == (t.groupID)).ToList<Group>();
+
+                    groupsnotdistinct.AddRange(unjoinedgroups);
+
+                }
+
+                foreach (var group in groupsnotdistinct)
+                {
+                    groups.Remove(group);
+                }
+            }
+
             return groups;
         }
     }
