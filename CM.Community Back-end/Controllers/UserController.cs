@@ -27,9 +27,8 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public async Task<ActionResult<User>> getSingle(int Id)
-        {
+        [Route("Id")]
+        public async Task<ActionResult<List<User>>> getSingle(int Id){
             return Ok(await _userService.getUserById(Id));
         }
 
