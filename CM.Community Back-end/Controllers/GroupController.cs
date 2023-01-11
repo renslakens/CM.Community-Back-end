@@ -40,6 +40,12 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult<List<Group>>> getGroupByID(int groupID)
+        {
+            return Ok(await _groupService.getGroupById(groupID));
+        }
+
+        [HttpGet]
         [Route("GetAll")]
         public async Task<ActionResult<List<Group>>> getAllGroups()
         {
@@ -47,9 +53,10 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpGet]
+        [Route("GetJoined")]
         public async Task<ActionResult<List<Group>>> getGroupByUserID(int currentUserID)
         {
-            return Ok(await _groupService.getGroupByUserID(currentUserID));
+            return Ok(await _groupService.getJoinedGroupsByUserID(currentUserID));
         }
 
         [HttpGet]
