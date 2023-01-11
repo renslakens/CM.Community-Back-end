@@ -55,14 +55,14 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("GetJoined/Id")]
         public async Task<ActionResult<List<Group>>> getGroupByUserID(int currentUserID)
         {
             return Ok(await _groupService.getGroupByUserID(currentUserID));
         }
 
         [HttpGet]
-        [Route("GetUnjoined")]
+        [Route("GetUnjoined/Id")]
         public async Task<ActionResult<List<Group>>> getUnjoinedGroupsByUserID(int currentUserID)
         {
             return Ok(await _groupService.getUnjoinedGroupsByUserID(currentUserID));
