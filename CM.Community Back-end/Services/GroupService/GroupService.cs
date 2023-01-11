@@ -88,16 +88,29 @@ namespace CM.Community_Back_end.Services.GroupService
         public async Task<List<Group>> getUnjoinedGroupsByUserID(int currentUserID)
         {
             var testing = _context;
-            var groups = new List<Group>();
+            var groups = testing.Groups.ToList<Group>();
+            var groupsnotdistinct = new List<Group>();
 
             var userGroups = testing.UserGroups
             .Where(t => currentUserID.Equals(t.userID)).ToList<UserGroup>();
 
-            foreach (var user in userGroups)
+            if (userGroups.Count > 0)
             {
-                groups = testing.Groups
-                .Where(t => user.groupID != (t.groupID)).ToList<Group>();
+                foreach (var user in userGroups)
+                {
+                    var unjoinedgroups = testing.Groups
+                    .Where(t => user.groupID == (t.groupID)).ToList<Group>();
+
+                    groupsnotdistinct.AddRange(unjoinedgroups);
+
+                }
+
+                foreach (var group in groupsnotdistinct)
+                {
+                    groups.Remove(group);
+                }
             }
+
             return groups;
         }
     }
