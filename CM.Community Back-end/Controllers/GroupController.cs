@@ -55,6 +55,7 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpGet]
+        [Route("{id}")]
         public async Task<ActionResult<List<Group>>> getGroupByUserID(int currentUserID)
         {
             return Ok(await _groupService.getGroupByUserID(currentUserID));
