@@ -25,6 +25,9 @@ namespace CM.Community_Back_end.Models
 
         [ForeignKey("groupID")]
         public System.Nullable<int> groupID { get; set; }
+
+        [ForeignKey("userID")]
+        public System.Nullable<int> userID { get; set; }
         //public Group Group { get; set; }
     }
 }

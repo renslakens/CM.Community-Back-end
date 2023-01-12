@@ -16,7 +16,6 @@ namespace CmCommunityBackend.Data
         public DbSet<TagPost>? TagPosts { get; set; }
         public DbSet<User>? Users { get; set; }
         public DbSet<UserGroup>? UserGroups { get; set; }
-        public DbSet<UserPost>? UserPosts { get; set; }
         
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -27,7 +26,6 @@ namespace CmCommunityBackend.Data
             modelBuilder.Entity<CommentPost>().HasKey(vf => new { vf.commentID, vf.postID });
             modelBuilder.Entity<TagPost>().HasKey(vf => new { vf.tagID, vf.postID });
             modelBuilder.Entity<UserGroup>().HasKey(vf => new { vf.userID, vf.groupID });
-            modelBuilder.Entity<UserPost>().HasKey(vf => new { vf.userID, vf.postID });
             modelBuilder.Entity<AttachmentPost>().Property(p => p.attachment).HasColumnType("varbinary");
             modelBuilder.Entity<AttachmentPost>().Property(p => p.attachment).HasMaxLength(8000);
             modelBuilder.Entity<ProfilePicture>().Property(p => p.profilePicture).HasColumnType("varbinary");
