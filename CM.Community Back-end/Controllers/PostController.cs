@@ -39,9 +39,9 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpPost("New")]
-        public async Task<ActionResult<List<Post>>> AddPost(Post newPost, int groupID)
+        public async Task<ActionResult<List<Post>>> AddPost(int userID, Post newPost, int groupID)
         {
-            return CreatedAtAction(nameof(AddPost), await _postService.AddPost(newPost, groupID));
+            return CreatedAtAction(nameof(AddPost), await _postService.AddPost(userID, newPost, groupID));
         }
 
         [HttpPut]

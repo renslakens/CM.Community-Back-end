@@ -78,26 +78,76 @@ namespace CM.Community_Back_end.Services.GroupService
             return newUserInGroup;
         }
 
-        public async Task<List<Group>> getJoinedGroupsByUserID(int currentUserID)
+        public async Task<UserGroup> leaveGroup(UserGroup leavingUserFromGroup)
+        {
+            var userid = leavingUserFromGroup.userID;
+            var groupid = leavingUserFromGroup.groupID;
+
+
+            var usergroups = await _context.UserGroups.FindAsync(userid, groupid);
+            if (usergroups is null)
+                return null;
+
+            _context.UserGroups.Remove(usergroups);
+            await _context.SaveChangesAsync();
+
+            return usergroups;
+        }
+
+        public async Task<List<Group>> getGroupByUserID(int currentUserID)
         {
             var testing = _context;
-            var groups = testing.Groups.FromSql($"Select G.groupID, G.Groupname From Groups G INNER JOIN UserGroups UG ON G.groupID = UG.GroupID WHERE UserId = {currentUserID}").ToList<Group>();
+            var groups = new List<Group>();
+            var groupsnotdistinct = new List<Group>();
+
+            var userGroups = testing.UserGroups
+                            .Where(t => currentUserID.Equals(t.userID)).ToList<UserGroup>();
+
+            if (userGroups.Count > 0)
+            {
+                foreach (var user in userGroups)
+                {
+                    var joinedgroups = testing.Groups
+                                       .Where(t => user.groupID.Equals(t.groupID)).ToList<Group>();
+
+                    groupsnotdistinct.AddRange(joinedgroups);
+
+                }
+
+                foreach (var group in groupsnotdistinct)
+                {
+                    groups.Add(group);
+                }
+            }
             return groups;
         }
 
         public async Task<List<Group>> getUnjoinedGroupsByUserID(int currentUserID)
         {
             var testing = _context;
-            var groups = new List<Group>();
+            var groups = testing.Groups.ToList<Group>();
+            var groupsnotdistinct = new List<Group>();
 
             var userGroups = testing.UserGroups
             .Where(t => currentUserID.Equals(t.userID)).ToList<UserGroup>();
 
-            foreach (var user in userGroups)
+            if (userGroups.Count > 0)
             {
-                groups = testing.Groups
-                .Where(t => user.groupID != (t.groupID)).ToList<Group>();
+                foreach (var user in userGroups)
+                {
+                    var unjoinedgroups = testing.Groups
+                    .Where(t => user.groupID == (t.groupID)).ToList<Group>();
+
+                    groupsnotdistinct.AddRange(unjoinedgroups);
+
+                }
+
+                foreach (var group in groupsnotdistinct)
+                {
+                    groups.Remove(group);
+                }
             }
+
             return groups;
         }
     }

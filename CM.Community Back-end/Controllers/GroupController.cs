@@ -31,7 +31,15 @@ namespace CM.Community_Back_end.Controllers
         {
             return Ok(await _groupService.deleteGroup(groupID));
         }
-        
+
+        [HttpDelete]
+        [Route("leave")]
+        public async Task<ActionResult<List<Group>>> leaveGroup(UserGroup leavingUserFromGroup)
+        {
+            return Ok(await _groupService.leaveGroup(leavingUserFromGroup));
+        }
+
+
         [HttpPost]
         [Route("join")]
         public async Task<ActionResult<UserGroup>> joinGroup(UserGroup newUserInGroup)
@@ -53,17 +61,17 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpGet]
-        [Route("GetJoined")]
-        public async Task<ActionResult<List<Group>>> getGroupByUserID(int currentUserID)
+        [Route("getjoined/{Id}")]
+        public async Task<ActionResult<List<Group>>> getGroupByUserID(int Id)
         {
-            return Ok(await _groupService.getJoinedGroupsByUserID(currentUserID));
+            return Ok(await _groupService.getGroupByUserID(Id));
         }
 
         [HttpGet]
-        [Route("GetUnjoined")]
-        public async Task<ActionResult<List<Group>>> getUnjoinedGroupsByUserID(int currentUserID)
+        [Route("GetUnjoined/{Id}")]
+        public async Task<ActionResult<List<Group>>> getUnjoinedGroupsByUserID(int Id)
         {
-            return Ok(await _groupService.getUnjoinedGroupsByUserID(currentUserID));
+            return Ok(await _groupService.getUnjoinedGroupsByUserID(Id));
         }
 
     }
