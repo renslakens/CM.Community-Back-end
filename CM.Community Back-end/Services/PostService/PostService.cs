@@ -48,7 +48,7 @@ namespace CM.Community_Back_end.Services.PostService
             var testing = _context;
 
             var groups = testing.Posts
-            .Where(t => groupID.Equals(t.groupID)).ToList<Post>();
+                        .Where(t => groupID.Equals(t.groupID)).ToList<Post>();
 
             groups.Reverse();
             return groups;
@@ -61,55 +61,39 @@ namespace CM.Community_Back_end.Services.PostService
             var userPosts = new List<Post>();
 
             var userPosts2 = testing.Posts
-                            .Where(t => t.groupID == null).ToList<Post>();
-
-            //var userGroups = testing.UserGroups
-            //.Where(t => userID.Equals(t.userID)).ToList<UserGroup>();
+                            .Where(t => t.groupID == null).ToList();
 
 
+            //getting groupid's
+            var taskgroups = testing1.getGroupByUserID(userID).Result;
 
 
-
-            //getting groupid's, same as in groupservice
-
-            //var testinggroups = testing1.getGroupByUserID(userID);
-
-            var groups = new List<Group>();
-            var groupsnotdistinct = new List<Group>();
-
-            var userGroups = testing.UserGroups
-                            .Where(t => userID.Equals(t.userID)).ToList<UserGroup>();
-
-            if (userGroups.Count > 0)
+            foreach (var user in taskgroups)
             {
-                foreach (var user in userGroups)
-                {
-                    var joinedgroups = testing.Groups
-                                       .Where(t => user.groupID.Equals(t.groupID)).ToList<Group>();
-
-                    groupsnotdistinct.AddRange(joinedgroups);
-
-                }
-
-                foreach (var group in groupsnotdistinct)
-                {
-                    groups.Add(group);
-                }
-            }
-
-            //getting groupid's, same as in groupservice
+                var groupPostsnew = testing.Posts.FromSql($"SELECT Posts.*, Users.userFirstName, Users.userLastName FROM Posts INNER JOIN Users ON Posts.userID=Users.UserId WHERE Posts.groupID = {user.groupID};").ToList<Post>();
 
 
 
-            foreach (var user in userGroups)
-            {
-                var groupPosts = testing.Posts
-                .Where(t => user.groupID.Equals(t.groupID)).ToList<Post>();
-                
-                userPosts2.AddRange(groupPosts);
+                //var groupPosts = testing.Posts
+                //.Where(t => user.groupID.Equals(t.groupID)).ToList<Post>();
+                //// add username 
+                userPosts2.AddRange(groupPostsnew);
             }
             var sortedList = userPosts2.OrderBy(t => t.postID).ToList();
             sortedList.Reverse();
+
+
+            //foreach (var post in sortedList)
+            //{
+            //    var username = testing.Users
+            //                   .Where(t => post.userID.Equals(t.UserId));
+            //                   //.Select(userFirstName);
+
+
+                               
+            //}
+
+
             return sortedList;
 
 
