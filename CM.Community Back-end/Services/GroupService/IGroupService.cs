@@ -10,6 +10,7 @@ namespace CM.Community_Back_end.Services.GroupService
         Task<Group> updateGroup(Group updatedGroup);
         Task<Group> deleteGroup(int groupID);
         Task<UserGroup> joinGroup(UserGroup newUserInGroup);
+        Task<UserGroup> leaveGroup(UserGroup leavingUserFromGroup);
         Task<List<Group>> getGroupByUserID(int currentUserID);
         Task<List<Group>> getUnjoinedGroupsByUserID(int currentUserID);
     }
