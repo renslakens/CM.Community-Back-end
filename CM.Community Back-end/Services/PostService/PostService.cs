@@ -47,11 +47,13 @@ namespace CM.Community_Back_end.Services.PostService
         {
             var testing = _context;
 
-            var groups = testing.Posts
-                        .Where(t => groupID.Equals(t.groupID)).ToList<Post>();
+            //var groups = testing.Posts
+            //            .Where(t => groupID.Equals(t.groupID)).ToList<Post>();
 
-            groups.Reverse();
-            return groups;
+            var groupsnew = testing.Posts.FromSql($"SELECT Posts.*, Users.userFirstName, Users.userLastName FROM Posts INNER JOIN Users ON Posts.userID=Users.UserId WHERE Posts.groupID = {groupID};").ToList<Post>();
+
+            groupsnew.Reverse();
+            return groupsnew;
         }
 
         public async Task<List<Post?>> GetPostByUserId(int userID)
@@ -85,7 +87,7 @@ namespace CM.Community_Back_end.Services.PostService
 
             //foreach (var post in sortedList)
             //{
-            //    var username = testing.Users
+            //    var username = testing.UsersAlth
             //                   .Where(t => post.userID.Equals(t.UserId));
             //                   //.Select(userFirstName);
 
