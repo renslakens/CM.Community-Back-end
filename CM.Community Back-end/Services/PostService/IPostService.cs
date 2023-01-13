@@ -14,7 +14,7 @@ namespace CM.Community_Back_end.Services.PostService
 
         Task<List<Post?>> GetPostByUserId(int userID);
 
-        Task<List<Post>> AddPost(int userID, Post newPost, int? groupID);
+        Task<List<Post>> AddPost(int? userID, Post newPost, int? groupID);
 
         Task<Post?> UpdatePost(int postID, Post updatedPost);
 

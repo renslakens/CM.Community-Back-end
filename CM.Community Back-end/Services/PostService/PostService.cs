@@ -68,9 +68,10 @@ namespace CM.Community_Back_end.Services.PostService
             return userPosts;
         }
 
-        public async Task<List<Post>> AddPost(int userID, Post newPost, int? groupID)
+        public async Task<List<Post>> AddPost(int? userID, Post newPost, int? groupID)
         {
             groupID = newPost.groupID;
+            userID = newPost.userID;
 
             _context.Posts.Add(newPost);
             await _context.SaveChangesAsync();
