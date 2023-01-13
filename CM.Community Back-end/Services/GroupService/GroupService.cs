@@ -23,8 +23,8 @@ namespace CM.Community_Back_end.Services.GroupService
             return -1;
         }
 
-        public async Task<Group> getGroupById(int Id) {
-            return await _context.Groups.FindAsync(Id);
+        public async Task<Group> getGroupById(int groupID) {
+            return await _context.Groups.FindAsync(groupID);
         }
         
         public async Task<Group> addGroup(Group newGroup)

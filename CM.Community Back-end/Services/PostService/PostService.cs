@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CM.Community_Back_end.Models;
+using CM.Community_Back_end.Services.GroupService;
 using CmCommunityBackend.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,9 +29,11 @@ namespace CM.Community_Back_end.Services.PostService
         // };
 
         private readonly ApplicationDbContext _context;
-        public PostService(ApplicationDbContext context)
+        private readonly IGroupService _groupService;
+        public PostService(ApplicationDbContext context, IGroupService groupService)
         {
             _context = context;
+            _groupService = groupService;   
         }
 
         public async Task<List<Post>> GetAllPosts()
@@ -54,18 +57,86 @@ namespace CM.Community_Back_end.Services.PostService
         public async Task<List<Post?>> GetPostByUserId(int userID)
         {
             var testing = _context;
+            var testing1 = _groupService;
             var userPosts = new List<Post>();
 
+            var userPosts2 = testing.Posts
+                            .Where(t => t.groupID == null).ToList<Post>();
+
+            //var userGroups = testing.UserGroups
+            //.Where(t => userID.Equals(t.userID)).ToList<UserGroup>();
+
+
+
+
+
+            //getting groupid's, same as in groupservice
+
+            //var testinggroups = testing1.getGroupByUserID(userID);
+
+            var groups = new List<Group>();
+            var groupsnotdistinct = new List<Group>();
+
             var userGroups = testing.UserGroups
-            .Where(t => userID.Equals(t.userID)).ToList<UserGroup>();
+                            .Where(t => userID.Equals(t.userID)).ToList<UserGroup>();
+
+            if (userGroups.Count > 0)
+            {
+                foreach (var user in userGroups)
+                {
+                    var joinedgroups = testing.Groups
+                                       .Where(t => user.groupID.Equals(t.groupID)).ToList<Group>();
+
+                    groupsnotdistinct.AddRange(joinedgroups);
+
+                }
+
+                foreach (var group in groupsnotdistinct)
+                {
+                    groups.Add(group);
+                }
+            }
+
+            //getting groupid's, same as in groupservice
+
+
 
             foreach (var user in userGroups)
             {
-                userPosts = testing.Posts
+                var groupPosts = testing.Posts
                 .Where(t => user.groupID.Equals(t.groupID)).ToList<Post>();
+                
+                userPosts2.AddRange(groupPosts);
             }
-            userPosts.Reverse();
-            return userPosts;
+            var sortedList = userPosts2.OrderBy(t => t.postID).ToList();
+            sortedList.Reverse();
+            return sortedList;
+
+
+
+            //var testing = _context;
+            //var userPosts = new List<Post>();
+            //var userPostsGroups = new List<Post>();
+            //var generalPosts = testing.Posts
+            //                    .Where(t => t.groupID.Equals(null)).ToList<Post>();
+
+            //var userGroups = testing.UserGroups
+            //.Where(t => userID.Equals(t.userID)).ToList<UserGroup>();
+
+            //foreach (var user in userGroups)
+            //{
+            //    userPostsGroups = testing.Posts
+            //    .Where(t => user.groupID.Equals(t.groupID)).ToList<Post>();
+            //}
+            //userPosts.AddRange(userPostsGroups);
+            //userPosts.AddRange(generalPosts);
+            //userPosts.OrderBy(t => t.postID);
+
+            //userPosts.Reverse();
+            //return userPosts;
+
+
+
         }
 
         public async Task<List<Post>> AddPost(int? userID, Post newPost, int? groupID)
