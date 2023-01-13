@@ -6,6 +6,7 @@ using CM.Community_Back_end.Models;
 using CM.Community_Back_end.Services.GroupService;
 using CmCommunityBackend.Data;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CM.Community_Back_end.Services.PostService
 {
@@ -50,7 +51,7 @@ namespace CM.Community_Back_end.Services.PostService
             //var groups = testing.Posts
             //            .Where(t => groupID.Equals(t.groupID)).ToList<Post>();
 
-            var groupsnew = testing.Posts.FromSql($"SELECT Posts.*, Users.userFirstName, Users.userLastName FROM Posts INNER JOIN Users ON Posts.userID=Users.UserId WHERE Posts.groupID = {groupID};").ToList<Post>();
+            var groupsnew = testing.Posts.FromSql($"SELECT Posts.postID, Posts.postTitle, Posts.postText, Posts.publicationDate, Posts.Subject, Posts.groupID, Posts.userID, Users.userFirstName, Users.userLastName FROM Posts INNER JOIN Users ON Posts.userID=Users.UserId WHERE Posts.groupID = {groupID};").ToList<Post>();
 
             groupsnew.Reverse();
             return groupsnew;
@@ -60,10 +61,17 @@ namespace CM.Community_Back_end.Services.PostService
         {
             var testing = _context;
             var testing1 = _groupService;
-            var userPosts = new List<Post>();
+            var userPosts = new List<object>();
 
-            var userPosts2 = testing.Posts
-                            .Where(t => t.groupID == null).ToList();
+            //var userPosts2 = testing.Posts
+            //                .Where(t => t.groupID == null).ToList();
+
+            var userPosts3 = testing.Posts.FromSql($"SELECT Posts.postID, Posts.postTitle, Posts.postText, Posts.publicationDate, Posts.Subject, Posts.groupID, Posts.userID, Users.userFirstName, Users.userLastName FROM Posts LEFT JOIN Users ON Posts.userID=Users.UserId WHERE Posts.groupID is null;").ToList<Post>();
+
+            //var userPosts4 =
+            //    from Post in testing.Posts
+            //    join User in testing.Users on Post equals User.UserId
+
 
 
             //getting groupid's
@@ -72,16 +80,16 @@ namespace CM.Community_Back_end.Services.PostService
 
             foreach (var user in taskgroups)
             {
-                var groupPostsnew = testing.Posts.FromSql($"SELECT Posts.*, Users.userFirstName, Users.userLastName FROM Posts INNER JOIN Users ON Posts.userID=Users.UserId WHERE Posts.groupID = {user.groupID};").ToList<Post>();
+                var groupPostsnew = testing.Posts.FromSql($"SELECT Posts.postID, Posts.postTitle, Posts.postText, Posts.publicationDate, Posts.Subject, Posts.groupID, Posts.userID, Users.userFirstName, Users.userLastName FROM Posts INNER JOIN Users ON Posts.userID=Users.UserId WHERE Posts.groupID = {user.groupID};").ToList();
 
 
 
                 //var groupPosts = testing.Posts
                 //.Where(t => user.groupID.Equals(t.groupID)).ToList<Post>();
                 //// add username 
-                userPosts2.AddRange(groupPostsnew);
+                userPosts3.AddRange(groupPostsnew);
             }
-            var sortedList = userPosts2.OrderBy(t => t.postID).ToList();
+            var sortedList = userPosts3.OrderBy(t => t.postID).ToList();
             sortedList.Reverse();
 
 

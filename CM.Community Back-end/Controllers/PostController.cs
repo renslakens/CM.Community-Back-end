@@ -33,7 +33,7 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpGet("user/{id}")]
-        public async Task<ActionResult<List<Post>>> GetUserPost(int id)
+        public async Task<ActionResult<List<object>>> GetUserPost(int id)
         {
             return Ok(await _postService.GetPostByUserId(id));
         }
