@@ -51,7 +51,7 @@ namespace CM.Community_Back_end.Services.PostService
             //var groups = testing.Posts
             //            .Where(t => groupID.Equals(t.groupID)).ToList<Post>();
 
-            var groupsnew = testing.Posts.FromSql($"SELECT Posts.postID, Posts.postTitle, Posts.postText, Posts.publicationDate, Posts.Subject, Posts.groupID, Posts.userID, Users.userFirstName, Users.userLastName FROM Posts INNER JOIN Users ON Posts.userID=Users.UserId WHERE Posts.groupID = {groupID};").ToList<Post>();
+            var groupsnew = testing.Posts.FromSql($"SELECT Posts.postID, Posts.postTitle, Posts.postText, Posts.publicationDate, Posts.Subject, Posts.groupID, Posts.userID, Users.userFirstName, Users.userLastName, Groups.groupName FROM Posts INNER JOIN Users ON Posts.userID=Users.UserId INNER JOIN Groups ON Posts.groupID=Groups.groupID WHERE Posts.groupID = {groupID};").ToList<Post>();
 
             groupsnew.Reverse();
             return groupsnew;
@@ -66,7 +66,7 @@ namespace CM.Community_Back_end.Services.PostService
             //var userPosts2 = testing.Posts
             //                .Where(t => t.groupID == null).ToList();
 
-            var userPosts3 = testing.Posts.FromSql($"SELECT Posts.postID, Posts.postTitle, Posts.postText, Posts.publicationDate, Posts.Subject, Posts.groupID, Posts.userID, Users.userFirstName, Users.userLastName FROM Posts LEFT JOIN Users ON Posts.userID=Users.UserId WHERE Posts.groupID is null;").ToList<Post>();
+            var userPosts3 = testing.Posts.FromSql($"SELECT Posts.postID, Posts.postTitle, Posts.postText, Posts.publicationDate, Posts.Subject, Posts.groupID, Posts.userID, Users.userFirstName, Users.userLastName, Posts.groupName FROM Posts LEFT JOIN Users ON Posts.userID=Users.UserId WHERE Posts.groupID is null;").ToList<Post>();
 
             //var userPosts4 =
             //    from Post in testing.Posts
@@ -80,7 +80,7 @@ namespace CM.Community_Back_end.Services.PostService
 
             foreach (var user in taskgroups)
             {
-                var groupPostsnew = testing.Posts.FromSql($"SELECT Posts.postID, Posts.postTitle, Posts.postText, Posts.publicationDate, Posts.Subject, Posts.groupID, Posts.userID, Users.userFirstName, Users.userLastName FROM Posts INNER JOIN Users ON Posts.userID=Users.UserId WHERE Posts.groupID = {user.groupID};").ToList();
+                var groupPostsnew = testing.Posts.FromSql($"SELECT Posts.postID, Posts.postTitle, Posts.postText, Posts.publicationDate, Posts.Subject, Posts.groupID, Posts.userID, Users.userFirstName, Users.userLastName, Groups.groupName FROM Posts INNER JOIN Users ON Posts.userID=Users.UserId INNER JOIN Groups ON Posts.groupID=Groups.groupID WHERE Posts.groupID = {user.groupID};").ToList();
 
 
 
@@ -137,6 +137,11 @@ namespace CM.Community_Back_end.Services.PostService
         {
             groupID = newPost.groupID;
             userID = newPost.userID;
+
+            if (newPost.groupID == null)
+            {
+                newPost.groupName = "Algemeen";
+            }
 
             _context.Posts.Add(newPost);
             await _context.SaveChangesAsync();

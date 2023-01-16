@@ -35,5 +35,8 @@ namespace CM.Community_Back_end.Models
 
         [StringLength(25)]
         public string userLastName { get; set; }
+
+        [StringLength(50)]
+        public string? groupName { get; set; }
     }
 }
