@@ -28,13 +28,30 @@ namespace CM.Community_Back_end.Services.UserService
             _context = context;
         }
 
-        public async Task<User> addUser(User newUser)
+        public async Task addingUser(User newUser)
         {
+            var existingUsers = _context.Users.FirstOrDefault(t => t.userEmail == newUser.userEmail);
+
             newUser.userPassword = BCrypt.Net.BCrypt.HashPassword(newUser.userPassword);
             await _context.Users.AddAsync(newUser);
             await _context.SaveChangesAsync();
 
-            return newUser;
+            //return newUser;
+        }
+
+        public async Task<String> addUser(User newUser)
+        {
+            var existingUsers = _context.Users.FirstOrDefault(t => t.userEmail == newUser.userEmail);
+
+            if (existingUsers != null)
+            {
+                return "User already exists";
+            }
+            else
+            {
+                await addingUser(newUser);
+                return "succes";
+            }
         }
 
         public Task<List<User>> updateUser(User updatedUser) {

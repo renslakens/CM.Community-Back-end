@@ -140,7 +140,7 @@ namespace CM.Community_Back_end.Services.PostService
 
             if (newPost.groupID == null)
             {
-                newPost.groupName = "Algemeen";
+                newPost.groupName = "General";
             }
 
             _context.Posts.Add(newPost);
