@@ -42,15 +42,21 @@ namespace CM.Community_Back_end.Services.UserService
         public async Task<String> addUser(User newUser)
         {
             var existingUsers = _context.Users.FirstOrDefault(t => t.userEmail == newUser.userEmail);
+            var returnSucces = "User added succesfully";
+            var returnFail = "User already exists";
 
             if (existingUsers != null)
             {
-                return "User already exists";
+                return returnFail;
+            }
+            else if (existingUsers == null)
+            {
+                addingUser(newUser);
+                return returnSucces;
             }
             else
             {
-                await addingUser(newUser);
-                return "succes";
+                return "fail";
             }
         }
 
