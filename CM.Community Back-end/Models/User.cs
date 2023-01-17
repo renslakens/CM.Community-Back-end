@@ -15,7 +15,7 @@ namespace CM.Community_Back_end.Models
         [StringLength(50)]
         public string userEmail { get; set; }
 
-        [StringLength(25)]
+        [StringLength(25)]  
         public string userFirstName { get; set; }
 
         [StringLength(25)]
