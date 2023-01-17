@@ -16,11 +16,6 @@ namespace CM.Community_Back_end.Services.UserService
     public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
-        
-        //private static List<User> users = new List<User>{
-        //    new User{userFirstName = "Lies", userEmail = "urMOm<3", userPassword = "Urdad<3"},
-        //    new User{userFirstName = "Ay", userEmail = "urMom<3", userPassword = "Urdad<3" }
-        //};
 
         private readonly IConfiguration _configuration;
         public UserService(IConfiguration configuration, ApplicationDbContext context) {
@@ -35,8 +30,6 @@ namespace CM.Community_Back_end.Services.UserService
             newUser.userPassword = BCrypt.Net.BCrypt.HashPassword(newUser.userPassword);
             await _context.Users.AddAsync(newUser);
             await _context.SaveChangesAsync();
-
-            //return newUser;
         }
 
         public async Task<String> addUser(User newUser)
@@ -84,17 +77,6 @@ namespace CM.Community_Back_end.Services.UserService
         {
             return await _context.Users.FindAsync(Id);
         }
-
-        //public async Task<List<User>> updateUser(User updatedUser) {
-        //    int index = getIndexById(updatedUser);
-        //    users[index] = updatedUser;
-        //    return users;
-        //}
-        //public async Task<List<User>> deleteUser(User deletedUser) {
-        //    int index = getIndexById(deletedUser);
-        //    _context.Users.RemoveAt(index);
-        //    return users;
-        //}
 
         public async Task<String> loginUser(UserDTO user) {
             //Gehashte wachtwoord checken met het ingevoerde wachtwoord

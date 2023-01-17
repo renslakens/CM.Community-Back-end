@@ -55,20 +55,6 @@ namespace CM.Community_Back_end.Services.GroupService
             return await _context.Groups.ToListAsync();
         }
 
-        //public async Task<Group> updateGroup(Group updatedGroup)
-        //{
-        //    int index = getIndexById(updatedGroup);
-        //    _context.Groups[index] = updatedGroup;
-        //    return updatedGroup;
-        //}
-
-        //public async Task<Group> deleteGroup(Group deletedGroup)
-        //{
-        //    int index = getIndexById(deletedGroup);
-        //    _context.Groups.RemoveAt(index);
-        //    return deletedGroup;
-        //}
-
         //joining group
         public async Task<UserGroup> joinGroup(UserGroup newUserInGroup)
         {
