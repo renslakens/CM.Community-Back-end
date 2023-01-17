@@ -53,10 +53,6 @@ namespace CM.Community_Back_end.Services.UserService
             }
         }
 
-        public Task<List<User>> updateUser(User updatedUser) {
-            throw new NotImplementedException();
-        }
-
         public async Task<User?> deleteUser(int userID) {
             var users = await _context.Users.FindAsync(userID);
             if (users is null)
