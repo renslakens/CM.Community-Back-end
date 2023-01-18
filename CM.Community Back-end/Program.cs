@@ -56,14 +56,15 @@ builder.Services.AddScoped<IGroupService, GroupService>();
 var config =
     builder.Configuration
     .GetSection("Ably");
-var ably = new AblyRealtime("gh1Qig.JTwI_A:dLtqVFIPnlHf-qm0kCPD7F5A46NVfmh8P2jJVlrpKQE");
+var ably = new AblyRealtime("gh1Qig.JTwI_A:dLtqVFIPnlHf-qm0kCPD7F5A46NVfmh8P2jJVlrpKQE");   
 
 IRealtimeChannel channel = ably.Channels.Get(
     "realtime");
 //channel.Presence.Enter("Alex entered the chat");
 channel.Publish(
     "post",
-    new Post { postID = 1, postText = "Hello World", groupID = 1, userID = 1, publicationDate = DateTime.Now });
+    new Message { Data = "e", Name = "e" });
+   
 //.AddCheck(
 //    "AblyChannel",
 //    new AblyChannelHealthCheck(
