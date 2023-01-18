@@ -18,7 +18,8 @@ namespace CM.Community_Back_end.Services.UserService
         private readonly ApplicationDbContext _context;
 
         private readonly IConfiguration _configuration;
-        public UserService(IConfiguration configuration, ApplicationDbContext context) {
+        public UserService(IConfiguration configuration, ApplicationDbContext context)
+        {
             _configuration = configuration;
             _context = context;
         }
@@ -53,7 +54,8 @@ namespace CM.Community_Back_end.Services.UserService
             }
         }
 
-        public async Task<User?> deleteUser(int userID) {
+        public async Task<User?> deleteUser(int userID)
+        {
             var users = await _context.Users.FindAsync(userID);
             if (users is null)
                 return null;
@@ -69,16 +71,18 @@ namespace CM.Community_Back_end.Services.UserService
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> getUserById(int Id) 
+        public async Task<User> getUserById(int Id)
         {
             return await _context.Users.FindAsync(Id);
         }
 
-        public async Task<String> loginUser(UserDTO user) {
+        public async Task<String> loginUser(UserDTO user)
+        {
             //Gehashte wachtwoord checken met het ingevoerde wachtwoord
             var oUser = _context.Users.FirstOrDefault(c => c.userEmail == user.userEmail);
 
-            if (oUser == null) {
+            if (oUser == null)
+            {
                 return "User does not exist";
             }
 
@@ -86,11 +90,17 @@ namespace CM.Community_Back_end.Services.UserService
 
             string token = CreateToken(user);
 
-            if (isValidPassword) {
+            if (isValidPassword)
+            {
                 return token;
             }
 
             return "Invalid login";
+        }
+
+        public Task<List<User>> updateUser(User updatedUser)
+        {
+            throw new NotImplementedException();
         }
 
         private string CreateToken(UserDTO user)
