@@ -16,11 +16,6 @@ namespace CM.Community_Back_end.Services.UserService
     public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
-        
-        //private static List<User> users = new List<User>{
-        //    new User{userFirstName = "Lies", userEmail = "urMOm<3", userPassword = "Urdad<3"},
-        //    new User{userFirstName = "Ay", userEmail = "urMom<3", userPassword = "Urdad<3" }
-        //};
 
         private readonly IConfiguration _configuration;
         public UserService(IConfiguration configuration, ApplicationDbContext context) {
@@ -28,17 +23,34 @@ namespace CM.Community_Back_end.Services.UserService
             _context = context;
         }
 
-        public async Task<User> addUser(User newUser)
+        public async Task addingUser(User newUser)
         {
+            var existingUsers = _context.Users.FirstOrDefault(t => t.userEmail == newUser.userEmail);
+
             newUser.userPassword = BCrypt.Net.BCrypt.HashPassword(newUser.userPassword);
             await _context.Users.AddAsync(newUser);
             await _context.SaveChangesAsync();
-
-            return newUser;
         }
 
-        public Task<List<User>> updateUser(User updatedUser) {
-            throw new NotImplementedException();
+        public async Task<String> addUser(User newUser)
+        {
+            var existingUsers = _context.Users.FirstOrDefault(t => t.userEmail == newUser.userEmail);
+            var returnSucces = "User added succesfully";
+            var returnFail = "User already exists";
+
+            if (existingUsers != null)
+            {
+                return returnFail;
+            }
+            else if (existingUsers == null)
+            {
+                addingUser(newUser);
+                return returnSucces;
+            }
+            else
+            {
+                return "fail";
+            }
         }
 
         public async Task<User?> deleteUser(int userID) {
@@ -61,17 +73,6 @@ namespace CM.Community_Back_end.Services.UserService
         {
             return await _context.Users.FindAsync(Id);
         }
-
-        //public async Task<List<User>> updateUser(User updatedUser) {
-        //    int index = getIndexById(updatedUser);
-        //    users[index] = updatedUser;
-        //    return users;
-        //}
-        //public async Task<List<User>> deleteUser(User deletedUser) {
-        //    int index = getIndexById(deletedUser);
-        //    _context.Users.RemoveAt(index);
-        //    return users;
-        //}
 
         public async Task<String> loginUser(UserDTO user) {
             //Gehashte wachtwoord checken met het ingevoerde wachtwoord

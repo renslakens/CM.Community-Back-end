@@ -33,16 +33,10 @@ namespace CM.Community_Back_end.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<User>>> addUser(User newUser)
+        public async Task<ActionResult<String>> addUser(User newUser)
         {
-            //return Ok(_userService.addUser(newUser));
-            return Ok(CreatedAtAction(nameof(addUser), await _userService.addUser(newUser)));
-        }
-
-        [HttpPut]
-        public async Task<ActionResult<List<User>>> updateUser(User updatedUser)
-        {
-            return Ok(await _userService.updateUser(updatedUser));
+            return Ok(_userService.addUser(newUser));
+            //return Ok(CreatedAtAction(nameof(addUser), await _userService.addUser(newUser)));
         }
 
         [HttpDelete]
