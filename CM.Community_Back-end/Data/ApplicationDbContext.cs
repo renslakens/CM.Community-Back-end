@@ -14,13 +14,15 @@ namespace CmCommunityBackend.Data
         //public DbSet<ProfilePicture>? ProfilePicture { get; set; }
         //public DbSet<Tag>? Tags { get; set; }
         //public DbSet<TagPost>? TagPosts { get; set; }
-        public DbSet<User>? Users { get; set; }
+        public virtual DbSet<User>? Users { get; set; }
         public DbSet<UserGroup>? UserGroups { get; set; }
         
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
+
+        public ApplicationDbContext() : base() {}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<CommentPost>().HasKey(vf => new { vf.commentID, vf.postID });
